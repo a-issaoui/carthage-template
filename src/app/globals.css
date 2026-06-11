@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CARTHAGE KITCHEN — "Punic Luxe" design system
+   Deep Mediterranean navy · ivory limestone · burnished copper
+   ============================================================ */
+
+@theme {
+  /* Palette */
+  --color-ivory: #f6f1e6;
+  --color-parchment: #ece3cf;
+  --color-limestone: #e2d6bc;
+  --color-sand: #d3bd95;
+  --color-gold: #c9a36a;
+  --color-copper: #a65e2e;
+  --color-copper-deep: #8a4a20;
+  --color-abyss: #0c1f2c;
+  --color-abyss-2: #122c3d;
+  --color-abyss-3: #1a3a4f;
+  --color-ink: #1a2630;
+  --color-ink-soft: #46525c;
+  --color-foam: #f2ead9;
+  --color-foam-dim: #c5bba6;
+
+  /* Typography */
+  --font-display: var(--font-fraunces), "Fraunces", georgia, serif;
+  --font-sans: var(--font-hanken), "Hanken Grotesk", ui-sans-serif, sans-serif;
+
+  /* Tracking for editorial kickers */
+  --tracking-kicker: 0.32em;
+
+  /* Fluid editorial scale — the page breathes with the viewport */
+  --text-display-hero: clamp(2.8rem, 1.2rem + 6vw, 5.6rem);
+  --text-display-page: clamp(2.4rem, 1.2rem + 4.5vw, 4.5rem);
+  --text-display-section: clamp(1.9rem, 1.1rem + 2.6vw, 3.4rem);
+  --space-section: clamp(4.5rem, 3rem + 6vh, 9rem);
+  --space-section-sm: clamp(3rem, 2rem + 4vh, 6rem);
+
+  /* Shadows */
+  --shadow-plate: 0 1px 2px rgb(12 31 44 / 0.06), 0 8px 24px -8px rgb(12 31 44 / 0.14);
+  --shadow-plate-lg: 0 2px 4px rgb(12 31 44 / 0.08), 0 24px 56px -16px rgb(12 31 44 / 0.28);
+  --shadow-glow: 0 0 0 1px rgb(201 163 106 / 0.25), 0 16px 48px -12px rgb(201 163 106 / 0.18);
+
+  /* Easing */
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Animations */
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-fade-up: fade-up 0.9s var(--ease-luxe) both;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv05";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-copper);
+  color: var(--color-ivory);
+}
+
+/* Display type defaults */
+.font-display {
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------
+   Atmosphere utilities
+   ------------------------------------------------------------ */
+
+/* Fine photographic grain, layered over slabs and images */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+}
+
+/* Limestone texture for ivory sections — barely-there mottle */
+.limewash {
+  background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 70% -10%, rgb(211 189 149 / 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 110%, rgb(211 189 149 / 0.12), transparent 60%);
+}
+
+/* Deep navy slab with abyssal gradient */
+.slab {
+  background-color: var(--color-abyss);
+  background-image:
+    radial-gradient(ellipse 90% 70% at 50% -20%, rgb(26 58 79 / 0.85), transparent 65%),
+    radial-gradient(ellipse 70% 50% at 85% 110%, rgb(18 44 61 / 0.9), transparent 60%);
+  color: var(--color-foam);
+}
+
+/* Editorial double hairline */
+.double-rule {
+  border-top: 1px solid currentColor;
+  position: relative;
+}
+.double-rule::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  right: 0;
+  border-top: 1px solid currentColor;
+}
+
+/* Mediterranean arch image mask */
+.arch {
+  border-radius: 999px 999px 16px 16px / 600px 600px 16px 16px;
+}
+
+/* Punic chevron border pattern (used as thin decorative strips) */
+.chevron-strip {
+  height: 8px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-gold) 0 1.5px,
+    transparent 1.5px 9px
+  );
+  opacity: 0.55;
+}
+
+/* ------------------------------------------------------------
+   Tunisian / Carthaginian motifs
+   ------------------------------------------------------------ */
+
+/* The door's black stud constellations, abstracted to a dotted field */
+.studs {
+  background-image: radial-gradient(circle, currentColor 1.4px, transparent 1.5px);
+  background-size: 17px 17px;
+}
+
+/* Zellige — eight-point star lattice, whisper-quiet on parchment */
+.zellige {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23a65e2e' stroke-width='0.75' opacity='0.16'%3E%3Cpath d='M28 4 33 23 52 28 33 33 28 52 23 33 4 28 23 23Z'/%3E%3Cpath d='M28 14 31.5 24.5 42 28 31.5 31.5 28 42 24.5 31.5 14 28 24.5 24.5Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Soft tonal hand-offs instead of hard section seams */
+.fade-up-parchment {
+  background: linear-gradient(to bottom, transparent, rgb(236 227 207 / 0.65));
+}
+.fade-down-parchment {
+  background: linear-gradient(to top, transparent, rgb(236 227 207 / 0.65));
+}
+
+/* Floating panels that straddle a section boundary */
+.overlap-panel {
+  position: relative;
+  z-index: 10;
+}
+
+/* Hide scrollbars on horizontal scrollers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
