@@ -20,7 +20,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About — The Kitchen, the Chef, the Numbers",
-  description: `Carthage Kitchen: founded ${site.founded} by chef Amine Khelifi. From one borrowed kitchen to ${site.eventsCatered}+ events across Los Angeles.`,
+  description: `Carthage Kitchen: founded ${site.founded} by chef Aymen Shili. From one borrowed kitchen to ${site.eventsCatered}+ events across Los Angeles.`,
   alternates: { canonical: "/about" },
 };
 
@@ -43,7 +43,7 @@ export default function AboutPage() {
             <Reveal>
               <ParallaxImage
                 src={img.chefSearing}
-                alt="Founder and executive chef Amine Khelifi at the pass"
+                alt="Founder and executive chef Aymen Shili at the pass"
                 className="arch aspect-[4/5] shadow-[var(--shadow-plate-lg)]"
                 sizes="(min-width: 1024px) 42vw, 100vw"
               />
@@ -54,14 +54,14 @@ export default function AboutPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <h2 className="font-display mt-5 text-balance text-4xl font-medium leading-[1.06] text-ink sm:text-5xl">
-                  Amine Khelifi — <em className="italic text-copper-deep">Tunis, Lyon, Los Angeles.</em>
+                  Aymen Shili — <em className="italic text-copper-deep">Tunis, Lyon, Los Angeles.</em>
                 </h2>
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="mt-6 space-y-5 text-pretty text-lg leading-relaxed text-ink-soft">
                   <p>
                     Born two miles from the ruins of Carthage, trained in Lyon's old-guard
-                    kitchens, seasoned in two Michelin-starred brigades. Amine founded
+                    kitchens, seasoned in two Michelin-starred brigades. Aymen founded
                     Carthage Kitchen in {site.founded} with one rule: every plate must
                     survive his grandmother's judgment.
                   </p>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               <Reveal delay={0.3}>
                 <div className="mt-8">
                   <ButtonLink href="/get-a-quote?from=about-chef" variant="outline">
-                    Book a Tasting with Amine
+                    Book a Tasting with Aymen
                   </ButtonLink>
                 </div>
               </Reveal>
@@ -138,7 +138,7 @@ export default function AboutPage() {
       <QuoteCtaCard
         from="about"
         title="Cook with us, once."
-        body="The story reads well, but the couscous argues better — book a tasting and judge the kitchen the way Amine's grandmother would."
+        body="The story reads well, but the couscous argues better — book a tasting and judge the kitchen the way Aymen's grandmother would."
         image={img.chefTeam}
         imageAlt="The Carthage Kitchen brigade working the line"
       />

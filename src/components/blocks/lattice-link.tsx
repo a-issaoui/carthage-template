@@ -17,7 +17,7 @@ export function LatticeLink({
   return (
     <Link href={href} className="group block border-b border-ink/10 py-5 transition-colors hover:border-copper/40">
       <span className="flex items-baseline gap-3">
-        <span className="font-display text-xl font-medium leading-snug text-ink transition-colors group-hover:text-copper-deep">
+        <span className="font-display min-w-0 text-xl font-medium leading-snug text-ink transition-colors group-hover:text-copper-deep">
           {title}
         </span>
         <span aria-hidden className="mb-1 flex-1 border-b border-dotted border-ink/25" />

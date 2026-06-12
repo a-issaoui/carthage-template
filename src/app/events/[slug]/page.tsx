@@ -74,7 +74,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <ParallaxImage
               src={study.image}
               alt={study.imageAlt}
-              className="aspect-[21/9] shadow-[var(--shadow-plate-lg)]"
+              className="aspect-[4/3] shadow-[var(--shadow-plate-lg)] sm:aspect-[21/9]"
               sizes="100vw"
               strength={6}
               priority

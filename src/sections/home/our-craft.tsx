@@ -17,7 +17,7 @@ export function OurCraft() {
             <Reveal>
               <ParallaxImage
                 src={img.chefSearing}
-                alt="Founder-chef Amine Khelifi searing fish over open flame"
+                alt="Founder-chef Aymen Shili searing fish over open flame"
                 className="arch aspect-[4/5] shadow-[var(--shadow-plate-lg)]"
                 sizes="(min-width: 1024px) 42vw, 100vw"
               />
@@ -44,7 +44,7 @@ export function OurCraft() {
             <Reveal delay={0.2}>
               <div className="mt-6 space-y-5 text-pretty text-lg leading-relaxed text-ink-soft">
                 <p>
-                  Everything is scratch-cooked under chef Amine Khelifi — Tunis-born,
+                  Everything is scratch-cooked under chef Aymen Shili — Tunis-born,
                   Lyon-trained — from a Mediterranean program built on his grandmother's
                   recipes to BBQ, Mexican, Persian, Italian, American, and a fusion
                   test kitchen.

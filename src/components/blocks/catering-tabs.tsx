@@ -87,7 +87,7 @@ export function CateringTabs() {
                         className="group block border-b border-ink/10 py-5 transition-colors duration-200 ease-out hover:border-copper/40"
                       >
                         <span className="flex items-baseline gap-3">
-                          <span className="font-display text-xl font-medium leading-snug text-ink transition-colors duration-200 ease-out group-hover:text-copper-deep">
+                          <span className="font-display min-w-0 text-xl font-medium leading-snug text-ink transition-colors duration-200 ease-out group-hover:text-copper-deep">
                             {cuisine?.name} for {tab.short}
                           </span>
                           <span aria-hidden className="mb-1 flex-1 border-b border-dotted border-ink/25" />

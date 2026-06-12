@@ -53,7 +53,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   // Dropdowns open on CLICK (deliberate, touch-friendly, a11y-clean);
   // Escape, outside-click, and route changes close them.
-  const [menu, setMenu] = useState<null | "catering" | "cuisines">(null);
+  const [menu, setMenu] = useState<null | "catering" | "cuisines" | "company">(null);
   const navRef = useRef<HTMLElement | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -67,7 +67,7 @@ export function Header() {
      (160ms) — passing through does nothing. While closed, the panel is
      pointer-events-none, so the trigger zone is exactly the button, never
      the invisible panel area. A 240ms grace on exit prevents flicker. */
-  const hoverProps = (name: "catering" | "cuisines") => ({
+  const hoverProps = (name: "catering" | "cuisines" | "company") => ({
     onMouseEnter: () => {
       if (closeTimer.current) clearTimeout(closeTimer.current);
       if (menu !== name) {
@@ -221,6 +221,9 @@ export function Header() {
                         {o.label}
                       </Link>
                     ))}
+                    <Link href="/programs" className={panelLink}>
+                      All programs
+                    </Link>
                     <p className={cn(panelHeading, "mt-5")}>More</p>
                     <Link href="/services" className={panelLink}>
                       All services
@@ -322,10 +325,52 @@ export function Header() {
             </div>
           </div>
 
+          {/* Company dropdown — brand, proof, and diligence pages */}
+          <div className="relative" {...hoverProps("company")}>
+            <button
+              type="button"
+              onClick={() => { clearTimers(); setMenu(menu === "company" ? null : "company"); }}
+              aria-haspopup="true"
+              aria-expanded={menu === "company"}
+              className={cn(
+                topItem,
+                menu === "company"
+                  ? light ? "text-gold" : "text-copper-deep"
+                  : cn("opacity-85 hover:opacity-100", light ? "hover:text-gold" : "hover:text-copper-deep")
+              )}
+            >
+              Company
+              <ChevronDown
+                aria-hidden
+                className={cn("size-3 transition-transform duration-500 ease-[var(--ease-luxe)]", menu === "company" && "rotate-180")}
+              />
+            </button>
+            <div className={cn(panelBase, menu === "company" ? panelOpen : panelClosed)} style={{ minWidth: "15rem" }}>
+              <div className="p-5">
+                <p className={panelHeading}>The Kitchen</p>
+                <Link href="/about" className={panelLink}>
+                  About us
+                </Link>
+                <Link href="/why-carthage" className={panelLink}>
+                  Why Carthage
+                </Link>
+                <p className={cn(panelHeading, "mt-5")}>The Proof</p>
+                <Link href="/events" className={panelLink}>
+                  Events we've catered
+                </Link>
+                <Link href="/testimonials" className={panelLink}>
+                  Testimonials
+                </Link>
+                <Link href="/gallery" className={panelLink}>
+                  Gallery
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {[
             { href: "/locations", label: "Locations" },
-            { href: "/gallery", label: "Gallery" },
-            { href: "/about", label: "About" },
+            { href: "/pricing", label: "Pricing" },
           ].map((link) => {
             const active = pathname.startsWith(link.href);
             return (
@@ -431,11 +476,15 @@ export function Header() {
               </div>
               <ul className="space-y-1">
                 {[
+                  { href: "/services", label: "All Services" },
+                  { href: "/programs", label: "Programs" },
                   { href: "/locations", label: "Locations" },
                   { href: "/events", label: "Events We've Catered" },
+                  { href: "/testimonials", label: "Testimonials" },
                   { href: "/gallery", label: "Gallery" },
                   { href: "/pricing", label: "Pricing" },
                   { href: "/about", label: "About" },
+                  { href: "/why-carthage", label: "Why Carthage" },
                 ].map((l) => (
                   <li key={l.href}>
                     <Link href={l.href} className="font-display block py-2 text-2xl text-foam hover:text-gold">

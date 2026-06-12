@@ -40,7 +40,7 @@ export function SpreadBuilder() {
     <Section tone="ivory">
       <Container wide>
         <div className="grid gap-12 lg:grid-cols-[1fr_20rem]">
-          <div className="space-y-12">
+          <div className="order-last space-y-12 lg:order-none">
             {cuisines.map((cuisine) => (
               <section key={cuisine.slug}>
                 <h2 className="font-display border-b border-ink/15 pb-3 text-2xl font-medium text-ink">
@@ -58,7 +58,7 @@ export function SpreadBuilder() {
                       const key = `${cuisine.slug}::${dish.name}`;
                       const on = picked.has(key);
                       return (
-                        <li key={key}>
+                        <li key={key} className="min-w-0">
                           <button
                             type="button"
                             aria-pressed={on}

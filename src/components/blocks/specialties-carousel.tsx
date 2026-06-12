@@ -56,7 +56,7 @@ export function SpecialtiesCarousel() {
                 </div>
 
                 <span className="mt-5 flex items-baseline gap-2.5">
-                  <span className="font-display text-lg font-medium leading-snug text-ink transition-colors duration-200 ease-out group-hover:text-copper-deep">
+                  <span className="font-display min-w-0 text-lg font-medium leading-snug text-ink transition-colors duration-200 ease-out group-hover:text-copper-deep">
                     {dish.name}
                   </span>
                   <span aria-hidden className="mb-1 flex-1 border-b border-dotted border-ink/25" />
