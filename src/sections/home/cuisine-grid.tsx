@@ -12,7 +12,7 @@ const archRadius = "rounded-[999px_999px_14px_14px/420px_420px_14px_14px]";
 
 /** Seven doors + yours — an infinite medina walk. The row loops as a slow
  *  marquee (paused on hover), sized so six doors are always in frame.
- *  The list renders twice; the clone set is aria-hidden. */
+ *  The list renders twice; the clone set is inert + aria-hidden. */
 export function CuisineGrid() {
   return (
     <Section tone="ivory" className="overflow-hidden">
@@ -49,6 +49,7 @@ export function CuisineGrid() {
                   <li
                     key={`${set}-${cuisine.slug}`}
                     aria-hidden={set === 1 || undefined}
+                    inert={set === 1 || undefined}
                     className={`shrink-0 pr-6 ${i % 2 === 1 ? "mt-8" : ""}`}
                     style={{ width: "calc(var(--door-w) + 1.5rem)" }}
                   >
@@ -65,6 +66,7 @@ export function CuisineGrid() {
                 <li
                   key={`${set}-custom`}
                   aria-hidden={set === 1 || undefined}
+                  inert={set === 1 || undefined}
                   className="shrink-0 pr-6"
                   style={{ width: "calc(var(--door-w) + 1.5rem)" }}
                 >

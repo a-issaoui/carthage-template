@@ -127,6 +127,7 @@ export function DishListSection({ cuisine }: { cuisine: Cuisine }) {
                 alt={cuisine.imageAlt}
                 sizes="(min-width: 1024px) 21rem, 100vw"
                 className="aspect-[4/3]"
+                priority
               />
               <div className="rounded-[4px] border-t-2 border-t-gold bg-ivory p-6 ring-1 ring-ink/10">
                 <p className="font-sans text-[0.62rem] font-semibold uppercase tracking-[var(--tracking-kicker)] text-copper-deep">

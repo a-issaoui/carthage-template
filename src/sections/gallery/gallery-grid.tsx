@@ -24,9 +24,10 @@ export function GalleryGrid() {
   return (
     <Section tone="ivory">
       <Container wide>
-        {/* Filter rail — text on a hairline, the site's tab language */}
+        {/* Filter rail — text on a hairline, the site's tab language.
+            Semantically a toggle group (not tabs — there are no panels). */}
         <div
-          role="tablist"
+          role="group"
           aria-label="Filter gallery by category"
           className="no-scrollbar flex justify-center gap-x-8 overflow-x-auto border-b border-ink/10"
         >
@@ -36,8 +37,7 @@ export function GalleryGrid() {
               <button
                 key={category.id}
                 type="button"
-                role="tab"
-                aria-selected={active}
+                aria-pressed={active}
                 onClick={() => setFilter(category.id)}
                 className={cn(
                   "relative shrink-0 pb-3.5 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-200 ease-out",

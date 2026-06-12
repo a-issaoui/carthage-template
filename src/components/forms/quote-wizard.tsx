@@ -64,6 +64,7 @@ export function QuoteWizard() {
   const [step, setStep] = useState(1);
   const [draft, setDraft] = useState<Draft>(empty);
   const [hydrated, setHydrated] = useState(false);
+  const [sending, setSending] = useState(false);
 
   // Restore the localStorage draft, then apply URL prefill on top.
   useEffect(() => {
@@ -130,9 +131,10 @@ export function QuoteWizard() {
     return rows;
   }, [draft, offering, isRecurring]);
 
-  function submit(e: React.FormEvent) {
+  function submit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!stepValid[5] || !stepValid[1]) return;
+    if (sending || !stepValid[5] || !stepValid[1]) return;
+    setSending(true);
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch {}
@@ -150,16 +152,21 @@ export function QuoteWizard() {
           const reachable = n < step;
           return (
             <li key={title} className="flex-1">
+              {/* Visual bar is 4px; the button itself is a 20px touch target */}
               <button
                 type="button"
                 disabled={!reachable}
                 onClick={() => reachable && setStep(n)}
-                className={cn(
-                  "block h-1 w-full rounded-full transition-colors duration-200 ease-out",
-                  n === step ? "bg-copper" : n < step ? "bg-copper/50 hover:bg-copper" : "bg-ink/10"
-                )}
+                className="group -my-2 flex h-5 w-full items-center"
                 aria-label={`Step ${n}: ${title}${reachable ? " (edit)" : ""}`}
-              />
+              >
+                <span
+                  className={cn(
+                    "block h-1 w-full rounded-full transition-colors duration-200 ease-out",
+                    n === step ? "bg-copper" : n < step ? "bg-copper/50 group-hover:bg-copper" : "bg-ink/10"
+                  )}
+                />
+              </button>
             </li>
           );
         })}
@@ -430,8 +437,15 @@ export function QuoteWizard() {
               {stepEmpty[step] ? "Skip for now" : "Next"}
             </Button>
           ) : (
-            <Button type="submit" variant="primary" size="lg" withArrow disabled={!stepValid[5]}>
-              Send Request
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              withArrow={!sending}
+              disabled={!stepValid[5] || sending}
+              aria-busy={sending}
+            >
+              {sending ? "Sending…" : "Send Request"}
             </Button>
           )}
         </div>

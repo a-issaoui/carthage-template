@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
@@ -18,6 +18,23 @@ import { cn } from "@/lib/utils";
 export function CateringTabs() {
   const tabs = eventOfferings.filter((o) => combosForEvent(o.slug).length > 0);
   const [active, setActive] = useState(0);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // APG tabs pattern: arrows move + activate, Home/End jump, roving tabindex.
+  function onTablistKeyDown(e: React.KeyboardEvent) {
+    const moves: Record<string, number> = {
+      ArrowRight: active + 1,
+      ArrowLeft: active - 1,
+      Home: 0,
+      End: tabs.length - 1,
+    };
+    const next = moves[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    const wrapped = (next + tabs.length) % tabs.length;
+    setActive(wrapped);
+    tabRefs.current[wrapped]?.focus();
+  }
 
   return (
     <Section tone="parchment" className="zellige">
@@ -33,6 +50,7 @@ export function CateringTabs() {
         <div
           role="tablist"
           aria-label="Event types"
+          onKeyDown={onTablistKeyDown}
           className="no-scrollbar mt-12 flex gap-x-8 overflow-x-auto border-b border-ink/10"
         >
           {tabs.map((tab, i) => {
@@ -40,9 +58,15 @@ export function CateringTabs() {
             return (
               <button
                 key={tab.slug}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
                 type="button"
                 role="tab"
+                id={`catering-tab-${tab.slug}`}
                 aria-selected={isActive}
+                aria-controls={`catering-panel-${tab.slug}`}
+                tabIndex={isActive ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={cn(
                   "relative shrink-0 pb-3.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-200 ease-out",
@@ -73,6 +97,8 @@ export function CateringTabs() {
             <div
               key={tab.slug}
               role="tabpanel"
+              id={`catering-panel-${tab.slug}`}
+              aria-labelledby={`catering-tab-${tab.slug}`}
               hidden={active !== i}
               className="css-fade-up mx-auto mt-2 max-w-3xl"
               style={{ animationDuration: "0.45s" }}
