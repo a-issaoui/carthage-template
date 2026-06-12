@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: `${site.name} — Luxury Catering in Los Angeles`,
     description: site.description,
   },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false }, // dev phase — flip back at launch
 };
 
 export default function RootLayout({
