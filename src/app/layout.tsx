@@ -24,7 +24,7 @@ const hanken = Hanken_Grotesk({
 /* Logo-only face: inscription capitals for the CARTHAGE KITCHEN lockup. */
 const cinzel = Cinzel({
   subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["600"],
   variable: "--font-cinzel",
   display: "swap",
 });
