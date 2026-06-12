@@ -127,7 +127,7 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
       </Section>
 
       <CaseStudyStrip studies={studies} title={`From the record, near ${location.name}.`} />
-      <QuoteCtaCard from={`location-${location.slug}`} title={`Price an event in ${location.name}`} />
+      <QuoteCtaCard from={`location-${location.slug}`} title={`Price an event in ${location.name}`} body={`Venues, load-ins, and curfews included in the math — ${location.leadTime.replace(" typical", "")} lead time, honestly quoted.`} image={location.image} imageAlt={location.imageAlt} />
       <LocationChips title="Nearby neighborhoods" slugs={[...location.nearby]} exclude={location.slug} />
     </>
   );

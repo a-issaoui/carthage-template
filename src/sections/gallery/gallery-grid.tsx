@@ -24,10 +24,11 @@ export function GalleryGrid() {
   return (
     <Section tone="ivory">
       <Container wide>
+        {/* Filter rail — text on a hairline, the site's tab language */}
         <div
           role="tablist"
           aria-label="Filter gallery by category"
-          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+          className="no-scrollbar flex justify-center gap-x-8 overflow-x-auto border-b border-ink/10"
         >
           {galleryCategories.map((category) => {
             const active = filter === category.id;
@@ -39,10 +40,10 @@ export function GalleryGrid() {
                 aria-selected={active}
                 onClick={() => setFilter(category.id)}
                 className={cn(
-                  "border px-6 py-3 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.2em] transition-all duration-300 ease-[var(--ease-luxe)]",
+                  "relative shrink-0 pb-3.5 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.18em] transition-colors duration-200 ease-out",
                   active
-                    ? "border-copper bg-copper text-ivory shadow-[var(--shadow-plate)]"
-                    : "border-ink/20 text-ink-soft hover:border-copper hover:text-copper-deep"
+                    ? "text-copper-deep after:absolute after:-bottom-px after:left-0 after:h-[2px] after:w-full after:bg-copper"
+                    : "text-ink-soft hover:text-ink"
                 )}
               >
                 {category.label}

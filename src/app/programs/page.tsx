@@ -9,6 +9,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { OfferingCard } from "@/components/blocks/offering-card";
 import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
 import { JsonLd } from "@/components/shared/json-ld";
+import { img } from "@/lib/images";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -40,7 +41,10 @@ export default function ProgramsHubPage() {
           </ul>
         </Container>
       </Section>
-      <QuoteCtaCard from="programs-hub" title="Start a program conversation" body="Tell us the cadence, headcount, and dietary mix — we'll sketch a rotation and a monthly number within one business day." />
+      <QuoteCtaCard from="programs-hub" title="Start a program conversation" body="Tell us the cadence, headcount, and dietary mix — we'll sketch a rotation and a monthly number within one business day."
+        image={img.buffetTrays}
+        imageAlt="Labeled trays set for a recurring office service"
+      />
     </>
   );
 }

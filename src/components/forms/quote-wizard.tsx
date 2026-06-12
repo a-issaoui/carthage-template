@@ -142,7 +142,7 @@ export function QuoteWizard() {
   const fieldset = "grid gap-6 sm:grid-cols-2";
 
   return (
-    <div className="border border-ink/10 bg-ivory p-7 shadow-[var(--shadow-plate-lg)] sm:p-10">
+    <div className="rounded-[4px] border-t-2 border-t-gold bg-ivory p-7 shadow-[0_24px_70px_-28px_rgb(12_31_44/0.35)] ring-1 ring-ink/8 sm:p-10">
       {/* Progress bar with jump-back */}
       <ol className="flex gap-1.5" aria-label="Form progress">
         {stepTitles.map((title, i) => {
@@ -155,7 +155,7 @@ export function QuoteWizard() {
                 disabled={!reachable}
                 onClick={() => reachable && setStep(n)}
                 className={cn(
-                  "block h-1.5 w-full transition-colors duration-300",
+                  "block h-1 w-full rounded-full transition-colors duration-200 ease-out",
                   n === step ? "bg-copper" : n < step ? "bg-copper/50 hover:bg-copper" : "bg-ink/10"
                 )}
                 aria-label={`Step ${n}: ${title}${reachable ? " (edit)" : ""}`}

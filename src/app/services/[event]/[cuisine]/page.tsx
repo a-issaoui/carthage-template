@@ -7,10 +7,9 @@ import { getOffering } from "@/data/offerings";
 import { getCuisine } from "@/data/cuisines";
 import { caseStudiesForEvent } from "@/data/case-studies";
 import { faqsFor } from "@/data/faqs";
-import { PageHero } from "@/components/shared/page-hero";
+import { PageHero, HeroFacts } from "@/components/shared/page-hero";
 import { TrustStrip } from "@/components/shared/trust-strip";
 import { Breadcrumbs } from "@/components/blocks/breadcrumbs";
-import { FactsRow } from "@/components/blocks/facts-row";
 import { PackageGrid, CustomPairingCard } from "@/components/blocks/package-grid";
 import { CaseStudyStrip } from "@/components/blocks/case-study-strip";
 import { FaqAccordion } from "@/components/shared/faq-accordion";
@@ -68,17 +67,23 @@ export default async function ComboPage({
     <>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       <JsonLd data={serviceSchema(`${combo.title} — Los Angeles`, combo.blurb, `/services/${event}/${cuisineSlug}`)} />
-      <PageHero kicker={`${offering.short} × ${cuisine.name}`} title={combo.title} lede={combo.blurb} />
-      <FactsRow
-        facts={[
-          combo.packages
-            ? { label: "Packages from", value: `$${Math.min(...combo.packages.map((p) => p.pricePerPerson))}/guest` }
-            : { label: "Pricing", value: "Built to brief" },
-          { label: "Lead time", value: offering.leadTime ?? "Ask us" },
-          { label: "Packages", value: combo.packages ? String(combo.packages.length) : "Custom" },
-          { label: "Full menu", value: `${cuisine.name} program` },
-        ]}
-      />
+      <PageHero
+        kicker={`${offering.short} × ${cuisine.name}`}
+        title={cuisine.name}
+        accent={`${offering.short.toLowerCase()} catering.`}
+        lede={combo.blurb}
+      >
+        <HeroFacts
+          facts={[
+            combo.packages
+              ? { label: "packages from", value: `$${Math.min(...combo.packages.map((p) => p.pricePerPerson))}/guest` }
+              : { label: "pricing", value: "Built to brief" },
+            { label: "lead time", value: offering.leadTime ?? "Ask us" },
+            { label: "packages", value: combo.packages ? `${combo.packages.length} tiers` : "Custom" },
+            { label: "full menu", value: cuisine.name },
+          ]}
+        />
+      </PageHero>
       <Breadcrumbs items={crumbs} />
       <TrustStrip />
 
@@ -156,6 +161,8 @@ export default async function ComboPage({
         event={event}
         menu={cuisineSlug}
         title={`Quote ${cuisine.name} for your ${offering.short.toLowerCase()}`}
+        image={cuisine.image}
+        imageAlt={cuisine.imageAlt}
       />
     </>
   );

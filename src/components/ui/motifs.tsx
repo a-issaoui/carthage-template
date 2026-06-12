@@ -69,3 +69,49 @@ export function CrescentMark({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/** Amphora — the Punic trade vessel; marks mezze, antipasti, openers. */
+export function AmphoraMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 32" fill="none" aria-hidden className={cn("h-6 w-auto", className)}>
+      <path d="M9 3 H15 M10 3 L10 6.5 M14 3 L14 6.5 M10 6.5 C5.5 8 4.5 12 5.5 16 C6.5 20.5 8.5 23 9.5 26 C9.9 27.3 10.6 28 12 28 C13.4 28 14.1 27.3 14.5 26 C15.5 23 17.5 20.5 18.5 16 C19.5 12 18.5 8 14 6.5 Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10 6.8 C7.2 7.6 5.2 9 5 11.5 M14 6.8 C16.8 7.6 18.8 9 19 11.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.5" />
+      <path d="M9.5 28 H14.5 M10.5 28 L10.5 29.5 H13.5 L13.5 28" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Brazier flame — the fire bowls of the terrace; marks mains and smokers. */
+export function FlameMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 32" fill="none" aria-hidden className={cn("h-6 w-auto", className)}>
+      <path d="M12 3 C14.5 6.5 16.5 9 16.5 12 C16.5 14.8 14.5 17 12 17 C9.5 17 7.5 14.8 7.5 12 C7.5 10.5 8 9.2 9 7.8 C9.2 9.6 10 10.6 11 11 C10.4 8 10.8 5.5 12 3 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M5 20 H19 L17.5 23.5 H6.5 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M8.5 23.5 L7 29 M15.5 23.5 L17 29 M12 23.5 L12 29" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Date palm — the emblem of Punic coinage; marks sweets (dates, honey). */
+export function PalmMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 28 32" fill="none" aria-hidden className={cn("h-6 w-auto", className)}>
+      <path d="M14 12 C14.5 17 14.5 23 13.5 29 M14 12 C10 10.5 6.5 11 4 13.5 C7.5 13.8 10.5 14.5 13 16 M14 12 C18 10.5 21.5 11 24 13.5 C20.5 13.8 17.5 14.5 15 16 M14 12 C11.5 9 9.5 6.5 9 3.5 C12 5.5 13.5 7.5 14 10 M14 12 C16.5 9 18.5 6.5 19 3.5 C16 5.5 14.5 7.5 14 10 M14 12 L14 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="11.5" cy="14.5" r="1" fill="currentColor" />
+      <circle cx="16.5" cy="14.5" r="1" fill="currentColor" />
+      <path d="M9 29 H18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Mosaic fish — the Mediterranean floor motif; marks crudo and the raw harbor. */
+export function FishMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 20" fill="none" aria-hidden className={cn("h-4 w-auto", className)}>
+      <path d="M3 10 C7 4.5 13 3 18 5 C21.5 6.4 24 8 26 10 C24 12 21.5 13.6 18 15 C13 17 7 15.5 3 10 Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M26 10 L30 5.5 L29 10 L30 14.5 Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+      <circle cx="8.5" cy="9" r="1" fill="currentColor" />
+      <path d="M13 6 C14 8.5 14 11.5 13 14 M18 5.5 C19.2 8.4 19.2 11.6 18 14.5" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.5" />
+    </svg>
+  );
+}

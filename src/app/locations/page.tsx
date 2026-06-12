@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { SmartImage } from "@/components/shared/smart-image";
 import { locations } from "@/data/locations";
 import { PageHero } from "@/components/shared/page-hero";
 import { TrustStrip } from "@/components/shared/trust-strip";
@@ -32,36 +31,42 @@ export default function LocationsHubPage() {
       <TrustStrip />
       <Section tone="ivory">
         <Container wide>
-          <ul className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
             {locations.map((location, i) => (
               <Reveal as="li" key={location.slug} delay={(i % 4) * 0.07}>
-                <Link
-                  href={`/locations/${location.slug}`}
-                  className="group block h-full bg-ivory shadow-[var(--shadow-plate)] transition-all duration-500 ease-[var(--ease-luxe)] hover:-translate-y-1 hover:shadow-[var(--shadow-plate-lg)]"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
+                <Link href={`/locations/${location.slug}`} className="group block">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[3px] shadow-[var(--shadow-plate)] transition-all duration-300 ease-[var(--ease-luxe)] group-hover:-translate-y-1 group-hover:shadow-[var(--shadow-plate-lg)]">
+                    <SmartImage
                       src={location.image}
                       alt={location.imageAlt}
-                      fill
-                      sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw"
-                      className="object-cover transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:scale-105"
+                      sizes="(min-width: 1024px) 23vw, 48vw"
+                      className="transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:scale-[1.04]"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-abyss/45 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-40" />
                   </div>
-                  <div className="p-5">
-                    <h2 className="font-display flex items-start justify-between gap-2 text-xl font-medium text-ink">
+                  <div className="mt-3.5 flex items-baseline gap-2.5">
+                    <h2 className="font-display text-lg font-medium leading-snug text-ink transition-colors duration-200 ease-out group-hover:text-copper-deep">
                       {location.name}
-                      <ArrowUpRight aria-hidden className="mt-1 size-4 shrink-0 text-copper-deep transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </h2>
-                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{location.headline}</p>
+                    <span aria-hidden className="mb-1 flex-1 border-b border-dotted border-ink/25" />
+                    <span className="shrink-0 font-sans text-[0.56rem] font-semibold uppercase tracking-[0.16em] text-copper-deep/80">
+                      {location.leadTime.replace(" typical", "")}
+                    </span>
                   </div>
+                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-ink-soft">{location.headline}</p>
                 </Link>
               </Reveal>
             ))}
           </ul>
         </Container>
       </Section>
-      <QuoteCtaCard from="locations-hub" title="Somewhere else in LA?" body="We cater across the county — name the neighborhood and we'll tell you honestly what the logistics look like." />
+      <QuoteCtaCard
+        from="locations-hub"
+        title="Somewhere else in LA?"
+        body="We cater across the county — name the neighborhood and we'll tell you honestly what the logistics look like."
+        image="/images/areas/downtown-los-angeles.jpg"
+        imageAlt="The downtown Los Angeles skyline at dusk"
+      />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Hanken_Grotesk } from "next/font/google";
+import { Cinzel, Fraunces, Hanken_Grotesk } from "next/font/google";
 import { Header } from "@/components/navigation/header";
 import { Footer } from "@/components/layout/footer";
 import { QuoteFab } from "@/components/shared/quote-fab";
@@ -18,6 +18,14 @@ const fraunces = Fraunces({
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-hanken",
+  display: "swap",
+});
+
+/* Logo-only face: inscription capitals for the CARTHAGE KITCHEN lockup. */
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -56,8 +64,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${hanken.variable}`}>
-      <body>
+    <html lang="en" className={`${fraunces.variable} ${hanken.variable} ${cinzel.variable}`}>
+      {/* suppressHydrationWarning: browser extensions (e.g. ColorZilla's
+          cz-shortcut-listen) inject body attributes before React loads —
+          that mismatch is theirs, not ours. */}
+      <body suppressHydrationWarning>
         <JsonLd data={localBusinessSchema()} />
         <a
           href="#main"

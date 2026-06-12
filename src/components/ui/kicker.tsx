@@ -14,7 +14,7 @@ export function Kicker({
     <p
       className={cn(
         "flex items-center gap-3 font-sans text-[0.7rem] font-semibold uppercase tracking-[var(--tracking-kicker)]",
-        tone === "light" ? "text-copper-deep" : "text-gold",
+        tone === "light" ? "text-copper-deep" : "text-ember",
         className
       )}
     >

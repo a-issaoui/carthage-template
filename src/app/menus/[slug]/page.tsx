@@ -70,13 +70,11 @@ export default async function CuisineMenuPage({ params }: { params: Promise<{ sl
         kicker={`Cuisine Program · ${cuisine.name}`}
         title={`${cuisine.name} Catering`}
         lede={cuisine.description}
-        image={cuisine.image}
-        imageAlt={cuisine.imageAlt}
       />
       <Breadcrumbs items={crumbs} />
 
       {/* The menu IS the product */}
-      <DishListSection categories={cuisine.categories} />
+      <DishListSection cuisine={cuisine} />
 
       {/* Cuisine → combo crawl path */}
       {eventLinks.length > 0 && (
@@ -118,6 +116,8 @@ export default async function CuisineMenuPage({ params }: { params: Promise<{ sl
         menu={cuisine.slug}
         title={`Get a ${cuisine.name} quote`}
         body="Convert at the peak of appetite — date, headcount, and we'll price this menu for your exact event."
+        image={cuisine.image}
+        imageAlt={cuisine.imageAlt}
       />
     </>
   );

@@ -1,26 +1,40 @@
 import { ShieldCheck, BadgeCheck, CalendarClock, Star } from "lucide-react";
-import { CrescentMark } from "@/components/ui/motifs";
 import { site } from "@/lib/site";
 
 const items = [
-  { icon: ShieldCheck, label: `$${site.insuranceM}M liability insured` },
-  { icon: BadgeCheck, label: "Licensed in CA · ServSafe" },
-  { icon: CalendarClock, label: `${new Date().getFullYear() - site.founded} years in Los Angeles` },
-  { icon: Star, label: `${site.rating.value}★ · ${site.rating.count} reviews` },
+  { icon: ShieldCheck, value: `$${site.insuranceM}M`, label: "Liability insured" },
+  { icon: BadgeCheck, value: "Licensed · CA", label: "ServSafe certified" },
+  { icon: CalendarClock, value: `${new Date().getFullYear() - site.founded} years`, label: "In Los Angeles" },
+  { icon: Star, value: `${site.rating.value}★`, label: `${site.rating.count} reviews` },
 ];
 
-/** Trust ribbon — a quiet inline row, not a row of boxes. Crescent glyphs
- *  separate the claims; the strip reads as one breath, not four cells. */
+/** Trust strip — the page's first quiet line of proof. A copper thread
+ *  marks the seam with the section above; each claim reads value-first
+ *  (display face) over a small-caps label, divided by hairlines. */
 export function TrustStrip() {
   return (
     <div className="limewash relative">
-      <ul className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-5 gap-y-2 px-5 py-6 sm:gap-x-7">
-        {items.map(({ icon: Icon, label }, i) => (
-          <li key={label} className="flex items-center gap-x-5 sm:gap-x-7">
-            {i > 0 && <CrescentMark className="h-2.5 shrink-0 text-copper/40 max-sm:hidden" />}
-            <span className="flex items-center gap-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-              <Icon aria-hidden className="size-4 text-copper-deep" />
-              {label}
+      {/* Seam thread — the deliberate cut from the hero/slab above */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-copper/35 to-transparent"
+      />
+      <ul className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-y-7 px-5 py-8 lg:grid-cols-4 lg:py-9">
+        {items.map(({ icon: Icon, value, label }) => (
+          <li
+            key={label}
+            className="flex items-center justify-center gap-3.5 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-ink/8"
+          >
+            <span className="grid size-10 shrink-0 place-items-center rounded-full border border-copper/25 text-copper-deep">
+              <Icon aria-hidden className="size-[18px]" strokeWidth={1.75} />
+            </span>
+            <span className="leading-none">
+              <span className="font-display block text-[1.1rem] font-medium tracking-[0.01em] text-ink">
+                {value}
+              </span>
+              <span className="mt-1.5 block font-sans text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
+                {label}
+              </span>
             </span>
           </li>
         ))}

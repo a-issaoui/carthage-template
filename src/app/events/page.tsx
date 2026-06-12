@@ -3,6 +3,7 @@ import { PageHero } from "@/components/shared/page-hero";
 import { CaseStudyExplorer } from "@/sections/events/case-study-explorer";
 import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
 import { JsonLd } from "@/components/shared/json-ld";
+import { img } from "@/lib/images";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -23,7 +24,13 @@ export default function EventsHubPage() {
         lede="Not a highlight reel — the operational record. Guest counts, venues, the thing that went sideways, and how the evening landed anyway."
       />
       <CaseStudyExplorer />
-      <QuoteCtaCard from="events-hub" title="Put your event on this page" />
+      <QuoteCtaCard
+        from="events-hub"
+        title="Put your event on this page"
+        body="Every case study above began as a form exactly like this one — date, headcount, ambitions."
+        image={img.weddingTent}
+        imageAlt="A tented estate reception from the record"
+      />
     </>
   );
 }

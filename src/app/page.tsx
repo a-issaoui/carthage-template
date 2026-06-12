@@ -32,7 +32,13 @@ export default function HomePage() {
       <FeaturedBand />
       <HomeTestimonials />
       <ServiceArea />
-      <QuoteCtaCard from="home" />
+      <QuoteCtaCard
+        from="home"
+        title="Set the date. We set the table."
+        body="Weddings, premieres, Tuesday lunches — every engagement starts with two fields and ends with a menu sketch in your inbox within one business day."
+        image="/images/hero/hero-carthage.jpg"
+        imageAlt="The Carthaginian terrace feast at sunset — where the page began"
+      />
     </>
   );
 }

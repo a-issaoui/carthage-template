@@ -31,7 +31,7 @@ const formatCards = [
 const imageObjectSchemas = galleryImages.map((g) => ({
   "@context": "https://schema.org",
   "@type": "ImageObject",
-  contentUrl: g.src,
+  contentUrl: `${site.url}${g.src}`,
   caption: `${g.alt} — Carthage Kitchen catering, Los Angeles`,
   creator: { "@type": "Organization", name: site.name },
 }));
@@ -76,7 +76,13 @@ export default function GalleryPage() {
       </section>
 
       <GalleryGrid />
-      <QuoteCtaCard from="gallery" title="Picture your own event" />
+      <QuoteCtaCard
+        from="gallery"
+        title="Picture your own event"
+        body="Everything above was photographed as served. Your evening gets the same kitchen — and the same camera-readiness."
+        image={img.galaLights}
+        imageAlt="An evening event under festival lighting"
+      />
     </>
   );
 }

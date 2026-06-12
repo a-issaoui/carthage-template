@@ -135,7 +135,13 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <QuoteCtaCard from="about" />
+      <QuoteCtaCard
+        from="about"
+        title="Cook with us, once."
+        body="The story reads well, but the couscous argues better — book a tasting and judge the kitchen the way Amine's grandmother would."
+        image={img.chefTeam}
+        imageAlt="The Carthage Kitchen brigade working the line"
+      />
     </>
   );
 }

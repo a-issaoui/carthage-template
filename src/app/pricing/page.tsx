@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Check } from "lucide-react";
 import { serviceStyles, overallRange } from "@/data/pricing";
 import { faqsFor } from "@/data/faqs";
 import { TrustStrip } from "@/components/shared/trust-strip";
@@ -7,9 +6,11 @@ import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Kicker } from "@/components/ui/kicker";
+import { HeroMark, heroFrame } from "@/components/shared/page-hero";
+import { PricePanel } from "@/components/blocks/price-panel";
 import { Reveal } from "@/components/shared/reveal";
-import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/shared/json-ld";
+import { img } from "@/lib/images";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -26,64 +27,60 @@ export default function PricingPage() {
       <JsonLd data={faqSchema(faqs)} />
 
       {/* Question-form H1 with the short answer in the first sentence */}
-      <section className="slab grain relative isolate overflow-hidden pb-16 pt-44 sm:pb-20 sm:pt-52">
+      <section className={heroFrame}>
         <Container wide>
-          <Reveal>
-            <Kicker tone="dark">Pricing, Answer-First</Kicker>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h1 className="font-display mt-6 max-w-4xl text-balance text-4xl font-medium leading-[1.06] text-foam sm:text-6xl">
-              How much does catering cost in <em className="italic text-gold">Los Angeles?</em>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-7 max-w-2xl text-pretty text-xl leading-relaxed text-foam-dim">
-              <strong className="text-foam">
-                ${overallRange[0]} to ${overallRange[1]} per person
-              </strong>{" "}
-              at Carthage Kitchen, depending on service style — drop-off is the most
-              affordable, plated full-service the highest. Here's the whole math, with
-              nothing hidden behind "call for pricing."
-            </p>
-          </Reveal>
+          <div className="flex items-center gap-10">
+            <div className="min-w-0 max-w-4xl flex-[2]">
+              <Reveal>
+                <Kicker tone="dark">Pricing, Answer-First</Kicker>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <h1
+                  className="font-display mt-6 text-balance font-medium leading-[1.06] text-foam"
+                  style={{ fontSize: "var(--text-display-page)" }}
+                >
+                  How much does catering cost in <em className="italic text-gold">Los Angeles?</em>
+                </h1>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <p className="mt-7 max-w-2xl text-pretty text-xl leading-relaxed text-foam-dim">
+                  <strong className="text-foam">
+                    ${overallRange[0]} to ${overallRange[1]} per person
+                  </strong>{" "}
+                  at Carthage Kitchen, depending on service style — drop-off is the most
+                  affordable, plated full-service the highest. Here's the whole math, with
+                  nothing hidden behind "call for pricing."
+                </p>
+              </Reveal>
+            </div>
+            <HeroMark />
+          </div>
         </Container>
         <div className="chevron-strip absolute inset-x-0 bottom-0" />
       </section>
 
       <TrustStrip />
 
-      {/* Per-person ranges by service style */}
+      {/* Per-person ranges by service style — one composed panel */}
       <Section tone="ivory">
         <Container wide>
-          <div className="grid gap-8 lg:grid-cols-3">
-            {serviceStyles.map((style, i) => (
-              <Reveal key={style.slug} delay={i * 0.1}>
-                <article className="flex h-full flex-col border border-ink/10 bg-ivory p-8 shadow-[var(--shadow-plate)]">
-                  <h2 className="font-display text-2xl font-medium text-ink">{style.name}</h2>
-                  <p className="font-display mt-4 text-4xl text-copper-deep">
-                    ${style.range[0]}–${style.range[1]}
-                    <span className="ml-1 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
-                      / person
-                    </span>
-                  </p>
-                  <p className="mt-4 text-pretty text-[0.95rem] leading-relaxed text-ink-soft">{style.blurb}</p>
-                  <ul className="mt-6 flex-1 space-y-2.5">
-                    {style.includes.map((item) => (
-                      <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-ink-soft">
-                        <Check aria-hidden className="mt-0.5 size-3.5 shrink-0 text-copper-deep" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-7">
-                    <ButtonLink href={`/get-a-quote?from=pricing-${style.slug}`} variant="outline" withArrow={false}>
-                      Quote {style.name.split(" ")[0]}
-                    </ButtonLink>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <PricePanel
+              columns={serviceStyles.map((style, i) => ({
+                name: style.name,
+                price: `$${style.range[0]}–${style.range[1]}`,
+                priceSub: "per person",
+                blurb: style.blurb,
+                items: style.includes,
+                cta: {
+                  href: `/get-a-quote?from=pricing-${style.slug}`,
+                  label: `Quote ${style.name.split(" ")[0]}`,
+                },
+                featured: i === 1,
+                badge: "Most booked",
+              }))}
+            />
+          </Reveal>
         </Container>
       </Section>
 
@@ -105,7 +102,13 @@ export default function PricingPage() {
         </Container>
       </Section>
 
-      <QuoteCtaCard from="pricing" title="Get your exact per-person number" />
+      <QuoteCtaCard
+        from="pricing"
+        title="Get your exact per-person number"
+        body="Ranges are honest, but your event deserves arithmetic — date, headcount, format, and we'll do the math line by line."
+        image={img.platedFine}
+        imageAlt="A precisely composed course on porcelain"
+      />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import type { Testimonial } from "@/types";
+import { cn } from "@/lib/utils";
 
 export function Stars({ count }: { count: number }) {
   return (
@@ -15,27 +16,37 @@ export function Stars({ count }: { count: number }) {
   );
 }
 
+/** Testimonial — an open editorial column on a hairline, no panel box.
+ *  Same anatomy on light and dark surfaces: stars → italic quote →
+ *  gold/copper name → role → platform microcopy. */
 export function TestimonialCard({ t, dark = false }: { t: Testimonial; dark?: boolean }) {
   return (
     <figure
-      className={
-        dark
-          ? "flex h-full flex-col border border-foam/15 bg-abyss-2/60 p-8"
-          : "flex h-full flex-col border border-ink/10 bg-ivory p-8 shadow-[var(--shadow-plate)]"
-      }
+      className={cn(
+        "group h-full border-l pl-7 transition-colors duration-200 ease-out",
+        dark ? "border-foam/15 hover:border-gold/50" : "border-ink/15 hover:border-copper/50"
+      )}
     >
       <Stars count={t.stars} />
       <blockquote
-        className={`font-display mt-5 flex-1 text-pretty text-lg font-medium italic leading-snug ${dark ? "text-foam" : "text-ink"}`}
+        className={cn(
+          "font-display mt-5 text-pretty text-xl font-medium italic leading-snug",
+          dark ? "text-foam" : "text-ink"
+        )}
       >
         “{t.quote}”
       </blockquote>
-      <figcaption className={`mt-6 border-t pt-4 ${dark ? "border-foam/15" : "border-ink/10"}`}>
-        <p className={`font-sans text-sm font-semibold ${dark ? "text-gold" : "text-copper-deep"}`}>
+      <figcaption className="mt-6">
+        <p className={cn("font-sans text-sm font-semibold tracking-wide", dark ? "text-gold" : "text-copper-deep")}>
           {t.name}
         </p>
-        <p className={`mt-0.5 text-sm ${dark ? "text-foam-dim" : "text-ink-soft"}`}>{t.role}</p>
-        <p className={`mt-0.5 font-sans text-[0.58rem] font-semibold uppercase tracking-[0.18em] ${dark ? "text-foam-dim/70" : "text-ink-soft/70"}`}>
+        <p className={cn("mt-1 text-sm leading-snug", dark ? "text-foam-dim" : "text-ink-soft")}>{t.role}</p>
+        <p
+          className={cn(
+            "mt-1.5 font-sans text-[0.58rem] font-semibold uppercase tracking-[0.18em]",
+            dark ? "text-foam-dim/70" : "text-ink-soft/70"
+          )}
+        >
           {t.event} · via {t.platform}
         </p>
       </figcaption>

@@ -92,7 +92,7 @@ export function articleSchema(args: {
     "@type": "Article",
     headline: args.title,
     description: args.description,
-    image: args.image,
+    image: args.image.startsWith("/") ? `${site.url}${args.image}` : args.image,
     url: `${site.url}${args.path}`,
     datePublished: args.datePublished,
     author: { "@type": "Organization", name: site.name },

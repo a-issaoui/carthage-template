@@ -1,4 +1,3 @@
-import { img } from "@/lib/images";
 import type { AreaLocation } from "@/types";
 
 /** 8 service areas — genuinely local prose (venues, logistics), never
@@ -15,8 +14,8 @@ export const locations: AreaLocation[] = [
     leadTime: "2–6 weeks typical",
     popularEvents: ["wedding", "private-events", "non-profit"],
     nearby: ["west-hollywood", "santa-monica", "hollywood"],
-    image: img.weddingSweetheart,
-    imageAlt: "An elegant sweetheart table with florals at an estate reception",
+    image: "/images/areas/beverly-hills.jpg",
+    imageAlt: "A modern Beverly Hills estate at dusk",
   },
   {
     slug: "culver-city",
@@ -29,8 +28,8 @@ export const locations: AreaLocation[] = [
     leadTime: "72 hours minimum for sets",
     popularEvents: ["film-production", "corporate", "office-meal-program"],
     nearby: ["santa-monica", "west-hollywood", "downtown-los-angeles"],
-    image: img.galaSparklers,
-    imageAlt: "Evening wrap party with sparkling lights",
+    image: "/images/areas/culver-city.jpg",
+    imageAlt: "A film projector glowing on a Culver City stage",
   },
   {
     slug: "downtown-los-angeles",
@@ -43,8 +42,8 @@ export const locations: AreaLocation[] = [
     leadTime: "1–4 weeks typical",
     popularEvents: ["corporate", "government", "wedding"],
     nearby: ["hollywood", "pasadena", "culver-city"],
-    image: img.corporateCrowd,
-    imageAlt: "An evening corporate reception in a downtown venue",
+    image: "/images/areas/downtown-los-angeles.jpg",
+    imageAlt: "The downtown Los Angeles skyline at dusk",
   },
   {
     slug: "hollywood",
@@ -57,8 +56,8 @@ export const locations: AreaLocation[] = [
     leadTime: "2–6 weeks typical",
     popularEvents: ["film-production", "corporate", "non-profit"],
     nearby: ["west-hollywood", "downtown-los-angeles", "beverly-hills"],
-    image: img.galaLights,
-    imageAlt: "A gala evening under festival lighting",
+    image: "/images/areas/hollywood.jpg",
+    imageAlt: "Premiere-night lights over a Hollywood crowd",
   },
   {
     slug: "long-beach",
@@ -71,8 +70,8 @@ export const locations: AreaLocation[] = [
     leadTime: "3–6 weeks typical",
     popularEvents: ["wedding", "corporate", "non-profit"],
     nearby: ["downtown-los-angeles", "culver-city", "santa-monica"],
-    image: img.longTableOutdoor,
-    imageAlt: "A long outdoor reception table set near the water",
+    image: "/images/areas/long-beach.jpg",
+    imageAlt: "Long Beach waterfront towers at dusk",
   },
   {
     slug: "pasadena",
@@ -85,8 +84,8 @@ export const locations: AreaLocation[] = [
     leadTime: "3–8 weeks typical",
     popularEvents: ["wedding", "healthcare", "office-meal-program"],
     nearby: ["downtown-los-angeles", "hollywood", "long-beach"],
-    image: img.weddingTent,
-    imageAlt: "A tented garden reception with long candlelit tables",
+    image: "/images/areas/pasadena.jpg",
+    imageAlt: "A white villa beneath Pasadena palms",
   },
   {
     slug: "santa-monica",
@@ -99,8 +98,8 @@ export const locations: AreaLocation[] = [
     leadTime: "2–6 weeks typical",
     popularEvents: ["wedding", "corporate", "weekly-meal"],
     nearby: ["beverly-hills", "culver-city", "west-hollywood"],
-    image: img.weddingOutdoorArch,
-    imageAlt: "An outdoor ceremony arch near the coast",
+    image: "/images/areas/santa-monica.jpg",
+    imageAlt: "A lifeguard tower on the Santa Monica shore",
   },
   {
     slug: "west-hollywood",
@@ -113,8 +112,8 @@ export const locations: AreaLocation[] = [
     leadTime: "1–4 weeks typical",
     popularEvents: ["private-events", "corporate", "wedding"],
     nearby: ["beverly-hills", "hollywood", "santa-monica"],
-    image: img.dinnerToast,
-    imageAlt: "A candlelit rooftop dinner toast",
+    image: "/images/areas/west-hollywood.jpg",
+    imageAlt: "Sunset palms silhouetted over West Hollywood",
   },
 ];
 

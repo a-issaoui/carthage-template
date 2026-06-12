@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
@@ -8,7 +8,9 @@ import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { eventOfferings, programOfferings } from "@/data/offerings";
 import { cuisines } from "@/data/cuisines";
 import { site } from "@/lib/site";
+import { img } from "@/lib/images";
 import { TanitMark } from "@/components/ui/tanit-mark";
+import { SmartImage } from "@/components/shared/smart-image";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,16 +20,16 @@ import { cn } from "@/lib/utils";
 
 function Wordmark({ light }: { light: boolean }) {
   return (
-    <span className="flex flex-col items-center leading-none">
-      <span className="font-display text-[1.05rem] font-medium tracking-[0.3em]">
+    <span className="flex flex-col items-center leading-none" style={{ fontFamily: "var(--font-logo)" }}>
+      <span className="text-[1.02rem] font-semibold tracking-[0.18em] transition-colors duration-700" style={{ marginRight: "-0.18em" }}>
         CARTHAGE
       </span>
       <span
         className={cn(
-          "mt-1 font-sans text-[0.52rem] font-semibold tracking-[0.74em]",
-          light ? "text-gold" : "text-copper-deep"
+          "mt-[5px] text-[0.54rem] font-semibold tracking-[0.62em] transition-colors duration-700",
+          light ? "text-ember" : "text-copper-deep"
         )}
-        style={{ marginRight: "-0.74em" }}
+        style={{ marginRight: "-0.62em" }}
       >
         KITCHEN
       </span>
@@ -35,30 +37,90 @@ function Wordmark({ light }: { light: boolean }) {
   );
 }
 
-const panelClass =
-  "invisible absolute left-1/2 top-full z-50 -translate-x-1/2 border-t-2 border-gold bg-ivory opacity-0 shadow-[var(--shadow-plate-lg)] transition-all duration-300 ease-[var(--ease-luxe)] translate-y-2 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100";
+const panelBase =
+  "absolute left-1/2 top-full z-50 -translate-x-1/2 overflow-hidden rounded-b-[4px] border border-ink/8 border-t-2 border-t-gold bg-ivory text-ink shadow-[0_24px_70px_-24px_rgb(12_31_44/0.35)] transition-all duration-500 ease-[var(--ease-luxe)]";
+const panelOpen = "visible translate-y-0 opacity-100";
+const panelClosed = "pointer-events-none invisible translate-y-4 opacity-0";
 
 const panelHeading =
-  "px-4 pb-2 pt-1 font-sans text-[0.56rem] font-semibold uppercase tracking-[0.3em] text-copper-deep/70";
+  "flex items-center gap-2.5 px-4 pb-2.5 pt-1 font-sans text-[0.56rem] font-semibold uppercase tracking-[0.3em] text-copper-deep/80 before:inline-block before:h-px before:w-4 before:bg-copper/50";
 
 const panelLink =
-  "block px-4 py-2 text-[0.92rem] font-medium text-ink transition-colors hover:bg-parchment/70 hover:text-copper-deep";
+  "group/pl relative block px-4 py-2 text-[0.92rem] font-medium text-ink transition-all duration-300 ease-[var(--ease-luxe)] hover:pl-6 hover:text-copper-deep before:absolute before:left-2 before:top-1/2 before:h-px before:w-0 before:bg-copper before:transition-all before:duration-300 hover:before:w-2.5";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Dropdowns open on CLICK (deliberate, touch-friendly, a11y-clean);
+  // Escape, outside-click, and route changes close them.
+  const [menu, setMenu] = useState<null | "catering" | "cuisines">(null);
+  const navRef = useRef<HTMLElement | null>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearTimers = () => {
+    if (openTimer.current) clearTimeout(openTimer.current);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  };
+
+  /* Hover with INTENT: opening requires the cursor to rest on the button
+     (160ms) — passing through does nothing. While closed, the panel is
+     pointer-events-none, so the trigger zone is exactly the button, never
+     the invisible panel area. A 240ms grace on exit prevents flicker. */
+  const hoverProps = (name: "catering" | "cuisines") => ({
+    onMouseEnter: () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+      if (menu !== name) {
+        if (openTimer.current) clearTimeout(openTimer.current);
+        openTimer.current = setTimeout(() => setMenu(name), 160);
+      }
+    },
+    onMouseLeave: () => {
+      if (openTimer.current) clearTimeout(openTimer.current);
+      closeTimer.current = setTimeout(
+        () => setMenu((m) => (m === name ? null : m)),
+        240
+      );
+    },
+  });
   const pathname = usePathname();
-  const overHero = pathname === "/" && !scrolled;
-  const light = overHero && !open;
+  // Transparent over every hero — all pages open on the navy slab.
+  const light = !scrolled && !open;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    // Hysteresis: engage past 48px, release under 8px — no thrashing when
+    // the user hovers around the threshold.
+    const onScroll = () =>
+      setScrolled((prev) => (prev ? window.scrollY > 8 : window.scrollY > 48));
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+    setMenu(null);
+    clearTimers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
+  useEffect(() => () => clearTimers(), []);
+
+  useEffect(() => {
+    if (!menu) return;
+    const onDown = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setMenu(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenu(null);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menu]);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -75,80 +137,187 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[var(--ease-luxe)]",
-        light
-          ? "bg-transparent text-foam"
-          : "border-b border-ink/8 bg-ivory/95 text-ink backdrop-blur-md"
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-700 ease-[var(--ease-luxe)]",
+        light ? "text-foam" : "text-ink"
       )}
     >
-      <div className="mx-auto grid h-20 w-full max-w-[88rem] grid-cols-[1fr_auto] items-center px-5 sm:px-8 xl:grid-cols-[1fr_auto_1fr] lg:px-12">
+      {/* Background veil — fades in, never snaps */}
+      <div
+        aria-hidden
+        className={cn(
+          "absolute inset-0 transition-all duration-700 ease-[var(--ease-luxe)]",
+          light
+            ? "bg-transparent shadow-none backdrop-blur-none"
+            : "bg-ivory/92 shadow-[0_12px_40px_-18px_rgb(12_31_44/0.18)] backdrop-blur-md"
+        )}
+      />
+      {/* Bottom hairline — a gradient thread that breathes in with the veil */}
+      <div
+        aria-hidden
+        className={cn(
+          "absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-copper/35 to-transparent transition-opacity duration-700",
+          light ? "opacity-0" : "opacity-100"
+        )}
+      />
+
+      <div
+        className={cn(
+          "relative mx-auto grid w-full max-w-[88rem] grid-cols-[1fr_auto] items-center px-5 transition-[height] duration-500 ease-[var(--ease-luxe)] sm:px-8 xl:grid-cols-[1fr_auto_1fr] lg:px-12",
+          scrolled && !open ? "h-16" : "h-20"
+        )}
+      >
         {/* Lockup */}
         <Link
           href="/"
           aria-label={`${site.name} — home`}
-          className="flex w-fit items-center gap-3.5"
+          className="group/logo flex w-fit items-center gap-3.5"
         >
-          <TanitMark className={cn("h-9", light ? "text-gold" : "text-copper-deep")} />
+          <TanitMark
+            className={cn(
+              "transition-all duration-500 ease-[var(--ease-luxe)]",
+              scrolled && !open ? "h-8" : "h-9",
+              light ? "text-gold" : "text-copper-deep"
+            )}
+          />
           <Wordmark light={light} />
         </Link>
 
         {/* Centered nav */}
-        <nav aria-label="Primary" className="hidden items-center gap-8 xl:flex">
-          <div className="group relative">
-            <button type="button" className={cn(topItem, "opacity-85 hover:opacity-100")} aria-haspopup="true">
-              Catering <ChevronDown aria-hidden className="size-3 transition-transform duration-300 group-hover:rotate-180" />
+        <nav ref={navRef} aria-label="Primary" className="hidden items-center gap-8 xl:flex">
+          <div className="relative" {...hoverProps("catering")}>
+            <button
+              type="button"
+              onClick={() => { clearTimers(); setMenu(menu === "catering" ? null : "catering"); }}
+              aria-haspopup="true"
+              aria-expanded={menu === "catering"}
+              className={cn(
+                topItem,
+                menu === "catering"
+                  ? light ? "text-gold" : "text-copper-deep"
+                  : cn("opacity-85 hover:opacity-100", light ? "hover:text-gold" : "hover:text-copper-deep")
+              )}
+            >
+              Catering
+              <ChevronDown
+                aria-hidden
+                className={cn("size-3 transition-transform duration-500 ease-[var(--ease-luxe)]", menu === "catering" && "rotate-180")}
+              />
             </button>
-            <div className={panelClass} style={{ minWidth: "34rem" }}>
-              <div className="grid grid-cols-2 gap-x-6 p-5">
-                <div>
-                  <p className={panelHeading}>By Event</p>
-                  {eventOfferings.map((o) => (
-                    <Link key={o.slug} href={`/services/${o.slug}`} className={panelLink}>
-                      {o.label}
+            <div className={cn(panelBase, menu === "catering" ? panelOpen : panelClosed)} style={{ minWidth: "46rem" }}>
+              <div className="flex">
+                <div className="grid flex-1 grid-cols-2 gap-x-4 p-6">
+                  <div>
+                    <p className={panelHeading}>By Event</p>
+                    {eventOfferings.map((o) => (
+                      <Link key={o.slug} href={`/services/${o.slug}`} className={panelLink}>
+                        {o.label.replace(" Catering", "")}
+                      </Link>
+                    ))}
+                  </div>
+                  <div>
+                    <p className={panelHeading}>Recurring</p>
+                    {programOfferings.map((o) => (
+                      <Link key={o.slug} href={`/programs/${o.slug}`} className={panelLink}>
+                        {o.label}
+                      </Link>
+                    ))}
+                    <p className={cn(panelHeading, "mt-5")}>More</p>
+                    <Link href="/services" className={panelLink}>
+                      All services
                     </Link>
-                  ))}
-                </div>
-                <div className="border-l border-ink/8 pl-6">
-                  <p className={panelHeading}>Recurring</p>
-                  {programOfferings.map((o) => (
-                    <Link key={o.slug} href={`/programs/${o.slug}`} className={panelLink}>
-                      {o.label}
+                    <Link href="/pricing" className={panelLink}>
+                      Pricing guide
                     </Link>
-                  ))}
-                  <p className={cn(panelHeading, "mt-4")}>More</p>
-                  <Link href="/services" className={panelLink}>
-                    All services
-                  </Link>
-                  <Link href="/pricing" className={panelLink}>
-                    Pricing guide
-                  </Link>
-                  <Link href="/events" className={panelLink}>
-                    Events we've catered
-                  </Link>
+                  </div>
                 </div>
+                {/* Featured evidence card */}
+                <Link
+                  href="/events"
+                  className="group/feat relative block w-60 shrink-0 overflow-hidden"
+                >
+                  <SmartImage
+                    src={img.weddingTent}
+                    alt="A tented estate wedding catered by Carthage Kitchen"
+                    sizes="240px"
+                    className="transition-transform duration-700 ease-[var(--ease-luxe)] group-hover/feat:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-abyss/90 via-abyss/30 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-5">
+                    <p className="font-sans text-[0.54rem] font-semibold uppercase tracking-[0.28em] text-gold">
+                      From the Record
+                    </p>
+                    <p className="font-display mt-1.5 text-lg font-medium leading-snug text-foam">
+                      Events we've actually catered
+                    </p>
+                    <p className="mt-1.5 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-foam-dim transition-colors group-hover/feat:text-gold">
+                      Read the case studies →
+                    </p>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
 
-          <div className="group relative">
-            <button type="button" className={cn(topItem, "opacity-85 hover:opacity-100")} aria-haspopup="true">
-              Cuisines <ChevronDown aria-hidden className="size-3 transition-transform duration-300 group-hover:rotate-180" />
+          <div className="relative" {...hoverProps("cuisines")}>
+            <button
+              type="button"
+              onClick={() => { clearTimers(); setMenu(menu === "cuisines" ? null : "cuisines"); }}
+              aria-haspopup="true"
+              aria-expanded={menu === "cuisines"}
+              className={cn(
+                topItem,
+                menu === "cuisines"
+                  ? light ? "text-gold" : "text-copper-deep"
+                  : cn("opacity-85 hover:opacity-100", light ? "hover:text-gold" : "hover:text-copper-deep")
+              )}
+            >
+              Cuisines
+              <ChevronDown
+                aria-hidden
+                className={cn("size-3 transition-transform duration-500 ease-[var(--ease-luxe)]", menu === "cuisines" && "rotate-180")}
+              />
             </button>
-            <div className={panelClass} style={{ minWidth: "17rem" }}>
+            <div className={cn(panelBase, menu === "cuisines" ? panelOpen : panelClosed)} style={{ minWidth: "23rem" }}>
               <div className="p-5">
-                <p className={panelHeading}>Seven Kitchens</p>
+                <p className={panelHeading}>Seven Kitchens, One Roof</p>
                 {cuisines.map((c) => (
-                  <Link key={c.slug} href={`/menus/${c.slug}`} className={panelLink}>
-                    {c.name}
+                  <Link
+                    key={c.slug}
+                    href={`/menus/${c.slug}`}
+                    className="group/c flex items-center gap-3.5 rounded-[3px] px-3 py-2 transition-colors duration-300 hover:bg-parchment/70"
+                  >
+                    <span className="relative size-10 shrink-0 overflow-hidden rounded-full shadow-[var(--shadow-plate)] ring-1 ring-copper/25 ring-offset-1 ring-offset-ivory">
+                      <SmartImage
+                        src={c.image}
+                        alt={c.imageAlt}
+                        sizes="40px"
+                        className="transition-transform duration-500 group-hover/c:scale-110"
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="font-display block text-[1rem] font-medium leading-tight text-ink transition-colors group-hover/c:text-copper-deep">
+                        {c.name}
+                      </span>
+                      <span className="block truncate text-[0.72rem] leading-snug text-ink-soft">
+                        {c.tagline}
+                      </span>
+                    </span>
                   </Link>
                 ))}
-                <p className={cn(panelHeading, "mt-4")}>More</p>
-                <Link href="/menus" className={panelLink}>
-                  All menus
-                </Link>
-                <Link href="/custom-package" className={panelLink}>
-                  Custom spread builder
-                </Link>
+                <div className="mt-3 flex items-center justify-between border-t border-ink/8 px-3 pt-3">
+                  <Link
+                    href="/menus"
+                    className="font-sans text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-copper-deep transition-colors hover:text-copper"
+                  >
+                    All menus →
+                  </Link>
+                  <Link
+                    href="/custom-package"
+                    className="font-sans text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-ink-soft transition-colors hover:text-copper-deep"
+                  >
+                    Custom builder
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -169,7 +338,7 @@ export function Header() {
                     ? light
                       ? "text-gold"
                       : "text-copper-deep"
-                    : "opacity-85 hover:opacity-100"
+                    : cn("opacity-85 hover:opacity-100", light ? "hover:text-gold" : "hover:text-copper-deep")
                 )}
               >
                 {link.label}
@@ -187,7 +356,7 @@ export function Header() {
           >
             <span
               className={cn(
-                "grid size-8 place-items-center rounded-full border",
+                "grid size-8 place-items-center rounded-full border transition-colors duration-700",
                 light ? "border-foam/30" : "border-ink/15"
               )}
             >

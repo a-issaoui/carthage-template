@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Star, Clock, CalendarCheck, Mail } from "lucide-react";
 import { QuoteWizard } from "@/components/forms/quote-wizard";
+import { HeroMark, heroFrame } from "@/components/shared/page-hero";
 import { ProcessTimeline } from "@/components/blocks/process-timeline";
 import { TestimonialCard } from "@/components/blocks/testimonial-card";
 import { Container } from "@/components/layout/container";
@@ -26,35 +27,43 @@ export default function GetAQuotePage() {
       <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Get a Quote", path: "/get-a-quote" }])} />
 
       {/* Hero promise + proof rail */}
-      <section className="slab grain relative isolate overflow-hidden pb-14 pt-44 sm:pt-52">
+      <section className={heroFrame}>
         <Container wide>
-          <Reveal>
-            <Kicker tone="dark">The Quote</Kicker>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h1 className="font-display mt-6 max-w-3xl text-balance text-4xl font-medium leading-[1.05] text-foam sm:text-6xl">
-              A couple of minutes. <em className="italic text-gold">That's the whole ask.</em>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-foam-dim">
-              Two required fields; everything else is honestly skippable. No spam, no
-              upsell call — a real menu sketch and a per-person figure from a human.
-            </p>
-          </Reveal>
-          <Reveal delay={0.3}>
-            <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-foam-dim">
-              <li className="flex items-center gap-2">
-                <Star aria-hidden className="size-4 text-gold" /> {site.rating.value}★ · {site.rating.count} reviews
-              </li>
-              <li className="flex items-center gap-2">
-                <Clock aria-hidden className="size-4 text-gold" /> 1 business day reply
-              </li>
-              <li className="flex items-center gap-2">
-                <CalendarCheck aria-hidden className="size-4 text-gold" /> {site.eventsCatered}+ events
-              </li>
-            </ul>
-          </Reveal>
+          <div className="flex items-center gap-10">
+            <div className="min-w-0 max-w-3xl flex-[2]">
+              <Reveal>
+                <Kicker tone="dark">The Quote</Kicker>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <h1
+                  className="font-display mt-6 text-balance font-medium leading-[1.05] text-foam"
+                  style={{ fontSize: "var(--text-display-page)" }}
+                >
+                  A couple of minutes. <em className="italic text-gold">That's the whole ask.</em>
+                </h1>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-foam-dim">
+                  Two required fields; everything else is honestly skippable. No spam, no
+                  upsell call — a real menu sketch and a per-person figure from a human.
+                </p>
+              </Reveal>
+              <Reveal delay={0.3}>
+                <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-foam-dim">
+                  <li className="flex items-center gap-2">
+                    <Star aria-hidden className="size-4 text-gold" /> {site.rating.value}★ · {site.rating.count} reviews
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Clock aria-hidden className="size-4 text-gold" /> 1 business day reply
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CalendarCheck aria-hidden className="size-4 text-gold" /> {site.eventsCatered}+ events
+                  </li>
+                </ul>
+              </Reveal>
+            </div>
+            <HeroMark />
+          </div>
         </Container>
         <div className="chevron-strip absolute inset-x-0 bottom-0" />
       </section>

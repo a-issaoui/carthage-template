@@ -7,6 +7,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { MenuCard } from "@/components/blocks/menu-card";
 import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
 import { JsonLd } from "@/components/shared/json-ld";
+import { img } from "@/lib/images";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -41,6 +42,8 @@ export default function MenusHubPage() {
         from="menus-hub"
         title="Get a tailored menu"
         body="Tell us the occasion and the appetite — we'll build a menu across any of these kitchens and price it per person."
+        image={img.mezzeOverhead}
+        imageAlt="A mezze spread across the table, from above"
       />
     </>
   );

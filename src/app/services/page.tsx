@@ -8,6 +8,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { OfferingCard } from "@/components/blocks/offering-card";
 import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
 import { JsonLd } from "@/components/shared/json-ld";
+import { img } from "@/lib/images";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -39,7 +40,13 @@ export default function ServicesHubPage() {
           </ul>
         </Container>
       </Section>
-      <QuoteCtaCard from="services-hub" />
+      <QuoteCtaCard
+        from="services-hub"
+        title="Eleven programs. One form."
+        body="Whichever door fits your event, the next step is the same — two fields, one business day, a real menu sketch."
+        image={img.rusticSpread}
+        imageAlt="A chef-styled spread of seasonal dishes"
+      />
     </>
   );
 }

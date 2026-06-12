@@ -5,10 +5,19 @@ import { cn } from "@/lib/utils";
 
 /** Cuisine card — each kitchen framed under the gallery arch, the name
  *  beneath like a house plaque. */
-export function MenuCard({ cuisine, large = false }: { cuisine: Cuisine; large?: boolean }) {
+export function MenuCard({
+  cuisine,
+  large = false,
+  tabbable = true,
+}: {
+  cuisine: Cuisine;
+  large?: boolean;
+  /** Set false on marquee clones so keyboard focus skips duplicates. */
+  tabbable?: boolean;
+}) {
   return (
-    <Link href={`/menus/${cuisine.slug}`} className="group block">
-      <div className="relative transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:-translate-y-1.5">
+    <Link href={`/menus/${cuisine.slug}`} className="group block" tabIndex={tabbable ? undefined : -1}>
+      <div className="relative transition-transform duration-300 ease-[var(--ease-luxe)] group-hover:-translate-y-1.5">
         <FramedImage
           src={cuisine.image}
           alt={cuisine.imageAlt}

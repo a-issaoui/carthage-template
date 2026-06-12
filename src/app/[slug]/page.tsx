@@ -139,7 +139,7 @@ export default async function AttributePage({ params }: { params: Promise<{ slug
       </Section>
 
       <FaqAccordion faqs={faqsFor(attr.tag)} kicker={`${attr.name} FAQs`} title="Certification, cross-contact," accent="and labels." withSchema />
-      <QuoteCtaCard from={`attr-${attr.slug}`} diet={attr.tag} title={`Price a ${attr.name.toLowerCase()} event`} />
+      <QuoteCtaCard from={`attr-${attr.slug}`} diet={attr.tag} title={`Price a ${attr.name.toLowerCase()} event`} body={`The proof grid above is derived from real menu data — your quote inherits the same ${attr.name.toLowerCase()} rigor, dish by dish.`} image={dishes[0]?.image} imageAlt={dishes[0]?.imageAlt} />
     </>
   );
 }

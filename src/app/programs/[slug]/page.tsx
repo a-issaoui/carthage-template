@@ -4,9 +4,8 @@ import { RefreshCw, Salad, Receipt, Truck } from "lucide-react";
 import { programs, getProgram } from "@/data/programs";
 import { getOffering } from "@/data/offerings";
 import { faqsFor } from "@/data/faqs";
-import { PageHero } from "@/components/shared/page-hero";
+import { PageHero, HeroFacts } from "@/components/shared/page-hero";
 import { Breadcrumbs } from "@/components/blocks/breadcrumbs";
-import { FactsRow } from "@/components/blocks/facts-row";
 import { TestimonialCard } from "@/components/blocks/testimonial-card";
 import { FaqAccordion } from "@/components/shared/faq-accordion";
 import { QuoteCtaCard } from "@/components/blocks/quote-cta-card";
@@ -49,30 +48,31 @@ export default async function ProgramPage({ params }: { params: Promise<{ slug: 
     <>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       <JsonLd data={serviceSchema(`${program.name} — Los Angeles`, program.blurb, `/programs/${program.slug}`)} />
-      <PageHero kicker="Recurring Program" title={program.name} lede={program.blurb} />
-      {offering && (
-        <FactsRow
-          facts={[
-            { label: "From", value: `$${offering.startingPrice}/head` },
-            { label: "Start", value: offering.leadTime ?? "2 weeks" },
-            { label: "Rotation", value: "6-week cycle" },
-            { label: "Commitment", value: "Month to month" },
-          ]}
-        />
-      )}
+      <PageHero kicker="Recurring Program" title={program.name} lede={program.blurb}>
+        {offering && (
+          <HeroFacts
+            facts={[
+              { label: "from", value: `$${offering.startingPrice}/head` },
+              { label: "start", value: offering.leadTime ?? "2 weeks" },
+              { label: "rotation", value: "6-week cycle" },
+              { label: "commitment", value: "Month to month" },
+            ]}
+          />
+        )}
+      </PageHero>
       <Breadcrumbs items={crumbs} />
 
       <Section tone="ivory">
         <Container wide>
           <SectionHeading kicker="What's Included" title="The program," accent="itemized." />
-          <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {program.included.map((item, i) => {
               const Icon = icons[i % icons.length];
               return (
                 <Reveal as="li" key={item.title} delay={i * 0.08}>
-                  <div className="h-full border border-ink/10 bg-ivory p-7 shadow-[var(--shadow-plate)]">
-                    <span className="grid size-10 place-items-center border border-copper/30 text-copper-deep">
-                      <Icon aria-hidden className="size-4.5" />
+                  <div className="group h-full border-t border-ink/15 pt-6 transition-colors duration-200 ease-out hover:border-copper/50">
+                    <span className="grid size-10 place-items-center rounded-full border border-copper/30 text-copper-deep transition-colors duration-200 ease-out group-hover:border-copper">
+                      <Icon aria-hidden className="size-4.5" strokeWidth={1.75} />
                     </span>
                     <h3 className="font-display mt-5 text-xl font-medium text-ink">{item.title}</h3>
                     <p className="mt-2.5 text-pretty text-sm leading-relaxed text-ink-soft">{item.text}</p>

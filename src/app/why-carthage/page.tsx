@@ -38,17 +38,22 @@ export default function WhyCarthagePage() {
       <Section tone="ivory">
         <Container wide>
           <SectionHeading kicker="What Sets Us Apart" title="Four arguments," accent="all checkable." />
-          <ul className="mt-12 grid gap-8 sm:grid-cols-2">
+          <ul className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2">
             {differentiators.map((d, i) => {
               const Icon = icons[i % icons.length];
               return (
                 <Reveal as="li" key={d.title} delay={(i % 2) * 0.1}>
-                  <div className="h-full border border-ink/10 bg-ivory p-8 shadow-[var(--shadow-plate)]">
-                    <span className="grid size-11 place-items-center border border-copper/30 text-copper-deep">
-                      <Icon aria-hidden className="size-5" />
-                    </span>
+                  <div className="group h-full border-t border-ink/15 pt-6 transition-colors duration-200 ease-out hover:border-copper/50">
+                    <div className="flex items-center gap-4">
+                      <span className="grid size-11 shrink-0 place-items-center rounded-full border border-copper/30 text-copper-deep transition-colors duration-200 ease-out group-hover:border-copper">
+                        <Icon aria-hidden className="size-5" strokeWidth={1.75} />
+                      </span>
+                      <p aria-hidden className="font-display text-2xl italic leading-none text-copper-deep/70">
+                        0{i + 1}
+                      </p>
+                    </div>
                     <h2 className="font-display mt-5 text-2xl font-medium text-ink">{d.title}</h2>
-                    <p className="mt-3 text-pretty leading-relaxed text-ink-soft">{d.text}</p>
+                    <p className="mt-3 max-w-md text-pretty leading-relaxed text-ink-soft">{d.text}</p>
                   </div>
                 </Reveal>
               );
@@ -127,7 +132,13 @@ export default function WhyCarthagePage() {
         </Container>
       </section>
 
-      <QuoteCtaCard from="why-carthage" title="Make us your easiest quote to compare" />
+      <QuoteCtaCard
+        from="why-carthage"
+        title="Make us your easiest quote to compare"
+        body="Itemized line by line, COI attached, lead time stated — set our proposal next to the other three and read."
+        image={img.chefSearing}
+        imageAlt="The chef at the pass over open flame"
+      />
     </>
   );
 }

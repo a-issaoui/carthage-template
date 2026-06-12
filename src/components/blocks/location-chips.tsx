@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowUpRight } from "lucide-react";
 import { locations } from "@/data/locations";
 import { Container } from "@/components/layout/container";
+import { Reveal } from "@/components/shared/reveal";
+import { AreaTile } from "@/components/blocks/area-tile";
 
-/** Geo-anchor chip row — home, intent, and location pages. */
+/** Geo routing strip — the same photo tiles as home's ServiceArea,
+ *  optionally filtered (nearby) or excluding the current area. */
 export function LocationChips({
   title = "Serving greater Los Angeles",
   exclude,
@@ -16,32 +19,40 @@ export function LocationChips({
   const list = (slugs ? locations.filter((l) => slugs.includes(l.slug)) : locations).filter(
     (l) => l.slug !== exclude
   );
+  const filtered = Boolean(slugs || exclude);
+
   return (
-    <section className="border-y border-ink/10 bg-parchment/50 py-10">
+    <section className="limewash py-(--space-section-sm)">
       <Container wide>
-        <p className="flex items-center gap-2.5 font-sans text-[0.66rem] font-semibold uppercase tracking-[var(--tracking-kicker)] text-copper-deep">
-          <MapPin aria-hidden className="size-3.5" />
-          {title}
-        </p>
-        <ul className="mt-5 flex flex-wrap gap-2.5">
-          {list.map((location) => (
-            <li key={location.slug}>
-              <Link
-                href={`/locations/${location.slug}`}
-                className="inline-block border border-ink/15 bg-ivory px-4 py-2 font-sans text-[0.72rem] font-semibold tracking-wide text-ink transition-all duration-300 hover:border-copper hover:text-copper-deep"
-              >
-                {location.name}
-              </Link>
-            </li>
-          ))}
-          <li>
+        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+          <p className="flex items-center gap-2.5 font-sans text-[0.66rem] font-semibold uppercase tracking-[var(--tracking-kicker)] text-copper-deep">
+            <MapPin aria-hidden className="size-3.5" />
+            {title}
+          </p>
+          {filtered && (
             <Link
               href="/locations"
-              className="inline-block border border-copper/40 bg-ivory px-4 py-2 font-sans text-[0.72rem] font-semibold tracking-wide text-copper-deep transition-all duration-300 hover:bg-copper hover:text-ivory"
+              className="group flex items-center gap-1.5 font-sans text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-ink-soft transition-colors duration-200 ease-out hover:text-copper-deep"
             >
-              All areas →
+              All areas
+              <ArrowUpRight aria-hidden className="size-3.5 transition-transform duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
-          </li>
+          )}
+        </div>
+
+        <ul
+          className={`mt-8 grid gap-x-6 gap-y-10 ${
+            list.length <= 3 ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-2 md:grid-cols-4"
+          }`}
+        >
+          {list.map((location, i) => (
+            <Reveal as="li" key={location.slug} delay={(i % 4) * 0.06}>
+              <AreaTile
+                location={location}
+                sizes={list.length <= 3 ? "(min-width: 640px) 30vw, 100vw" : "(min-width: 768px) 23vw, 48vw"}
+              />
+            </Reveal>
+          ))}
         </ul>
       </Container>
     </section>

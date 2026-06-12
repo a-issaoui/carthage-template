@@ -14,9 +14,11 @@
   --color-gold: #c9a36a;
   --color-copper: #a65e2e;
   --color-copper-deep: #8a4a20;
+  --color-ember: #cf7a4b; /* terracotta for dark surfaces — the red voice */
   --color-abyss: #0c1f2c;
   --color-abyss-2: #122c3d;
   --color-abyss-3: #1a3a4f;
+  --color-abyss-deep: #071420;
   --color-ink: #1a2630;
   --color-ink-soft: #46525c;
   --color-foam: #f2ead9;
@@ -25,6 +27,7 @@
   /* Typography */
   --font-display: var(--font-fraunces), "Fraunces", georgia, serif;
   --font-sans: var(--font-hanken), "Hanken Grotesk", ui-sans-serif, sans-serif;
+  --font-logo: var(--font-cinzel), "Cinzel", "Trajan Pro", georgia, serif;
 
   /* Tracking for editorial kickers */
   --tracking-kicker: 0.32em;
@@ -118,6 +121,14 @@ body {
   color: var(--color-foam);
 }
 
+/* The darker chapter — near-black navy for cinematic passages */
+.slab-deep {
+  background-color: var(--color-abyss-deep);
+  background-image:
+    radial-gradient(ellipse 90% 70% at 50% -20%, rgb(12 31 44 / 0.9), transparent 65%);
+  color: var(--color-foam);
+}
+
 /* Editorial double hairline */
 .double-rule {
   border-top: 1px solid currentColor;
@@ -142,10 +153,10 @@ body {
   height: 8px;
   background-image: repeating-linear-gradient(
     -45deg,
-    var(--color-gold) 0 1.5px,
+    var(--color-ember) 0 1.5px,
     transparent 1.5px 9px
   );
-  opacity: 0.55;
+  opacity: 0.65;
 }
 
 /* ------------------------------------------------------------
@@ -175,6 +186,46 @@ body {
 .overlap-panel {
   position: relative;
   z-index: 10;
+}
+
+/* Hero entrance — CSS-only so nothing waits on hydration */
+@keyframes hero-zoom {
+  from { transform: scale(1.07); }
+  to { transform: scale(1); }
+}
+.hero-backdrop {
+  animation: hero-zoom 2.4s var(--ease-luxe) both;
+}
+@keyframes css-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.css-fade-up {
+  animation: css-fade-up 0.9s var(--ease-luxe) both;
+}
+@keyframes rise-line {
+  from { transform: translateY(110%); }
+  to { transform: translateY(0); }
+}
+.rise-line {
+  animation: rise-line 1.1s var(--ease-luxe) both;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.bob {
+  animation: bob 2.4s ease-in-out infinite;
+}
+/* Scroll cue: a drop of light sliding down a hairline */
+@keyframes cue-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  25% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { transform: translateY(18px); opacity: 0; }
+}
+.cue-drop {
+  animation: cue-drop 2.2s var(--ease-luxe) infinite;
 }
 
 /* Hide scrollbars on horizontal scrollers */

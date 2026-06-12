@@ -2,7 +2,9 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { cuisines } from "@/data/cuisines";
+import { SmartImage } from "@/components/shared/smart-image";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { ButtonLink } from "@/components/ui/button";
@@ -62,19 +64,36 @@ export function SpreadBuilder() {
                             aria-pressed={on}
                             onClick={() => toggle(key)}
                             className={cn(
-                              "flex w-full items-baseline justify-between gap-4 border px-4 py-3 text-left transition-all duration-200",
+                              "flex w-full items-center gap-3.5 rounded-[3px] px-3 py-2.5 text-left ring-1 transition-all duration-200 ease-out",
                               on
-                                ? "border-copper bg-copper/10"
-                                : "border-ink/10 bg-ivory hover:border-copper/40"
+                                ? "bg-parchment/70 ring-copper"
+                                : "bg-transparent ring-ink/10 hover:ring-copper/40"
                             )}
                           >
-                            <span>
-                              <span className={cn("font-display block text-[1.05rem] leading-snug", on ? "text-copper-deep" : "text-ink")}>
+                            <span
+                              className={cn(
+                                "relative size-10 shrink-0 overflow-hidden rounded-full shadow-[var(--shadow-plate)] ring-1 ring-offset-1 ring-offset-ivory transition-all duration-200",
+                                on ? "ring-copper" : "ring-copper/25"
+                              )}
+                            >
+                              <SmartImage src={dish.image} alt={dish.imageAlt} sizes="40px" />
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className={cn("font-display block truncate text-[1rem] leading-snug transition-colors duration-200", on ? "text-copper-deep" : "text-ink")}>
                                 {dish.name}
                               </span>
                               <span className="mt-0.5 block text-xs text-ink-soft">{dish.serves}</span>
                             </span>
                             <span className="font-display whitespace-nowrap text-copper-deep">${dish.price}</span>
+                            <span
+                              aria-hidden
+                              className={cn(
+                                "grid size-5 shrink-0 place-items-center rounded-full border transition-all duration-200 ease-out",
+                                on ? "border-copper bg-copper text-ivory" : "border-ink/20 text-transparent"
+                              )}
+                            >
+                              <Check className="size-3" />
+                            </span>
                           </button>
                         </li>
                       );
@@ -87,7 +106,7 @@ export function SpreadBuilder() {
 
           {/* Sticky summary */}
           <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div className="border border-ink/10 bg-parchment/60 p-7 shadow-[var(--shadow-plate)]">
+            <div className="rounded-[4px] border-t-2 border-t-gold bg-ivory p-7 shadow-[0_24px_70px_-28px_rgb(12_31_44/0.3)] ring-1 ring-ink/8">
               <h2 className="font-display text-xl font-medium text-ink">Your spread</h2>
               <p className="mt-2 text-sm text-ink-soft">
                 {picked.size === 0

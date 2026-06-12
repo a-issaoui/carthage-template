@@ -157,7 +157,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </Container>
       </Section>
 
-      <QuoteCtaCard from={`case-study-${study.slug}`} event={study.eventType} title="Plan one like it" />
+      <QuoteCtaCard from={`case-study-${study.slug}`} event={study.eventType} title="Plan one like it" image={study.image} imageAlt={study.imageAlt} />
     </>
   );
 }

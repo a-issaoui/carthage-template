@@ -1,128 +1,94 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "motion/react";
-import { img } from "@/lib/images";
 import { site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui/button";
 import { TanitMark } from "@/components/ui/tanit-mark";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
-/** FullHero — the only H1: head keyword + breadth qualifier; quote + phone CTAs. */
+/** FullHero — the only H1. Entirely CSS-animated and server-rendered:
+ *  nothing here waits on hydration, so the image and headline are visible
+ *  on first paint in any browser. Ends in the site's signature arc so the
+ *  page flows into the TrustStrip below instead of cutting to it. */
 export function Hero() {
   return (
     <section className="slab grain relative isolate flex min-h-svh flex-col justify-end overflow-hidden">
-      <motion.div
-        initial={{ scale: 1.08, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.2, ease }}
-        className="absolute inset-0 -z-10"
-      >
+      {/* CSS-only backdrop: visible before hydration, never blanks */}
+      <div className="hero-backdrop absolute inset-0 -z-10">
         <Image
-          src={img.heroTable}
-          alt="A candlelit dinner table set by Carthage Kitchen for an evening event"
+          src="/images/hero/hero-carthage.jpg"
+          alt="A Carthaginian terrace feast overlooking the ancient harbor at sunset"
           fill
           priority
+          quality={90}
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/55 to-abyss/30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-abyss/60 via-transparent to-transparent" />
-      </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/40 to-abyss/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-abyss/65 via-abyss/15 to-transparent" />
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.07 }}
-        transition={{ duration: 2.4, delay: 0.8, ease }}
+      {/* The sign of Tanit — centered in the gutter between the viewport
+          edge and the text column ((100vw − 88rem)/4 = the gap's midpoint) */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 top-1/2 -z-10 -translate-y-1/2 text-gold max-lg:hidden"
+        className="css-fade-up pointer-events-none absolute top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 text-gold max-lg:hidden"
+        style={{
+          left: "max(calc((100vw - 88rem) / 4), 1rem)",
+          animationDelay: "0.8s",
+          animationDuration: "2.4s",
+        }}
       >
-        <TanitMark className="h-[36rem]" />
-      </motion.div>
+        <TanitMark className="h-[clamp(14rem,22vw,26rem)] opacity-[0.11]" />
+      </div>
 
-      <div className="mx-auto w-full max-w-[88rem] px-5 pb-16 pt-40 sm:px-8 sm:pb-20 lg:px-12">
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.5, ease }}
-          className="flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[var(--tracking-kicker)] text-gold"
+      <div className="mx-auto w-full max-w-[88rem] px-5 pb-28 pt-40 sm:px-8 sm:pb-32 lg:px-12">
+
+
+        <p
+          className="css-fade-up mt-7 flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[var(--tracking-kicker)] text-ember"
+          style={{ animationDelay: "0.45s" }}
         >
-          <span aria-hidden className="inline-block h-px w-10 bg-gold" />
+          <span aria-hidden className="inline-block h-px w-10 bg-ember" />
           Since {site.founded} · {site.rating.value}★ across {site.rating.count} reviews
-        </motion.p>
+        </p>
 
         <h1
-          className="font-display mt-7 max-w-4xl text-balance font-medium leading-[1.04] text-foam"
+          className="font-display mt-6 max-w-4xl text-balance font-medium leading-[1.12] text-foam"
           style={{ fontSize: "var(--text-display-hero)" }}
         >
+          {/* Each mask gets a descender allowance (pb) that a negative mb
+              reclaims — glyphs render fully, lines stay visually tight. */}
           {["Chef-led catering across", "Los Angeles —"].map((line, i) => (
-            <span key={line} className="block overflow-hidden">
-              <motion.span
-                className="block"
-                initial={{ y: "110%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 1.1, delay: 0.7 + i * 0.12, ease }}
-              >
+            <span key={line} className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+              <span className="rise-line block" style={{ animationDelay: `${0.6 + i * 0.12}s` }}>
                 {line}
-              </motion.span>
+              </span>
             </span>
           ))}
-          <span className="block overflow-hidden">
-            <motion.span
-              className="block"
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.1, delay: 0.94, ease }}
-            >
+          <span className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+            <span className="rise-line block" style={{ animationDelay: "0.84s" }}>
               <em className="italic text-gold">Mediterranean & beyond.</em>
-            </motion.span>
+            </span>
           </span>
         </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.25, ease }}
-          className="mt-7 max-w-xl text-pretty text-lg leading-relaxed text-foam-dim"
+        <p
+          className="css-fade-up mt-6 max-w-xl text-pretty text-lg leading-relaxed text-foam-dim"
+          style={{ animationDelay: "1.1s" }}
         >
           Seven cuisine programs, eleven event types, one chef-led kitchen.
           Weddings, premieres, school lunches, and office programs — same
           brigade, same standard.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.45, ease }}
-          className="mt-9 flex flex-wrap items-center gap-4"
-        >
+        <div className="css-fade-up mt-8 flex flex-wrap items-center gap-4" style={{ animationDelay: "1.3s" }}>
           <ButtonLink href="/get-a-quote?from=home-hero" variant="gold" size="lg">
             Request a Quote
           </ButtonLink>
           <ButtonLink href={site.phoneHref} variant="outline-light" size="lg" withArrow={false}>
             Call {site.phone}
           </ButtonLink>
-        </motion.div>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.8 }}
-        className="border-t border-foam/15"
-      >
-        <div className="mx-auto flex w-full max-w-[88rem] items-center justify-between px-5 py-4 font-sans text-[0.6rem] uppercase tracking-[0.3em] text-foam-dim sm:px-8 lg:px-12">
-          <span>Weddings · Corporate · Film · Schools · Programs</span>
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            aria-hidden
-          >
-            Scroll ↓
-          </motion.span>
-        </div>
-      </motion.div>
     </section>
   );
 }

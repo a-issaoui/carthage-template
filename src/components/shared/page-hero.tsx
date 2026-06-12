@@ -1,46 +1,75 @@
 import { Container } from "@/components/layout/container";
 import { Kicker } from "@/components/ui/kicker";
 import { TanitMark } from "@/components/ui/tanit-mark";
-import { ArcDivider } from "@/components/ui/motifs";
-import { FramedImage } from "@/components/shared/framed-image";
 import { Reveal } from "@/components/shared/reveal";
 
-/** Inner-page opener: navy slab swooping into the page via an arc — no hard
- *  seam. Optionally carries a Sidi Bou Saïd arch image that bleeds across
- *  the boundary into the content below. */
+/** The hero mark — gold Tanit centered in the zone between the text block
+ *  and the hero's right end. Shared by PageHero and the custom heroes
+ *  (quote, pricing, testimonials). */
+export function HeroMark() {
+  return (
+    <Reveal
+      delay={0.25}
+      className="hidden flex-1 items-center justify-center self-stretch md:flex"
+    >
+      <TanitMark aria-hidden className="h-40 text-gold opacity-[0.16] sm:h-48 lg:h-56" />
+    </Reveal>
+  );
+}
+
+/** One height for every inner hero — locked min-h, content centered in the
+ *  zone below the fixed header, regardless of how much content a page has. */
+export const heroFrame =
+  "slab grain relative isolate flex min-h-[30rem] flex-col justify-center overflow-hidden pb-12 pt-28 sm:min-h-[36rem] sm:pt-32";
+
+/** In-hero facts rail — gold value, quiet small-caps label. The same
+ *  register as the quote page's proof rail. */
+export function HeroFacts({ facts }: { facts: { label: string; value: string }[] }) {
+  return (
+    <ul className="mt-8 flex flex-wrap gap-x-9 gap-y-3.5">
+      {facts.map((fact) => (
+        <li
+          key={fact.label}
+          className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-foam-dim"
+        >
+          <span className="font-display mr-2.5 text-lg normal-case tracking-normal text-gold">
+            {fact.value}
+          </span>
+          {fact.label}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Inner-page opener — the quote-page hero, sitewide: navy slab, kicker,
+ *  fluid display headline, lede, the sign of Tanit centered right,
+ *  chevron strip at the base. (Home keeps its own cinematic hero.) */
 export function PageHero({
   kicker,
   title,
   accent,
   lede,
-  image,
-  imageAlt,
+  children,
 }: {
   kicker: string;
   title: string;
   accent?: string;
   lede?: string;
-  image?: string;
-  imageAlt?: string;
+  /** Optional in-hero extras (e.g. a HeroFacts rail), rendered after the lede. */
+  children?: React.ReactNode;
 }) {
   return (
-    <section className="slab grain relative isolate overflow-visible pb-24 pt-40 sm:pb-28 sm:pt-48">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-20 top-24 -z-10 text-gold opacity-[0.05]"
-      >
-        <TanitMark className="h-[24rem]" />
-      </div>
-
+    <section className={heroFrame}>
       <Container wide>
-        <div className={image ? "grid items-end gap-10 lg:grid-cols-[1.5fr_1fr]" : undefined}>
-          <div>
+        <div className="flex items-center gap-10">
+          <div className="min-w-0 max-w-4xl flex-[2]">
             <Reveal>
               <Kicker tone="dark">{kicker}</Kicker>
             </Reveal>
             <Reveal delay={0.1}>
               <h1
-                className="font-display mt-6 max-w-4xl text-balance font-medium leading-[1.04] text-foam"
+                className="font-display mt-6 text-balance font-medium leading-[1.04] text-foam"
                 style={{ fontSize: "var(--text-display-page)" }}
               >
                 {title}
@@ -59,23 +88,12 @@ export function PageHero({
                 </p>
               </Reveal>
             )}
+            {children && <Reveal delay={0.3}>{children}</Reveal>}
           </div>
-
-          {image && (
-            <Reveal delay={0.25} className="relative z-20 max-lg:hidden">
-              {/* The arch: bleeds past the arc into the section below */}
-              <FramedImage
-                src={image}
-                alt={imageAlt ?? ""}
-                sizes="(min-width: 1024px) 22vw, 0px"
-                className="-mb-28 ml-auto aspect-[3/4] w-full max-w-2xs xl:max-w-xs"
-              />
-            </Reveal>
-          )}
+          <HeroMark />
         </div>
       </Container>
-
-      <ArcDivider fill="fill-ivory" />
+      <div className="chevron-strip absolute inset-x-0 bottom-0" />
     </section>
   );
 }

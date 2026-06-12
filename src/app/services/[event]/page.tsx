@@ -6,10 +6,9 @@ import { combosForEvent } from "@/data/combos";
 import { cuisines } from "@/data/cuisines";
 import { caseStudiesForEvent } from "@/data/case-studies";
 import { faqsFor } from "@/data/faqs";
-import { PageHero } from "@/components/shared/page-hero";
+import { PageHero, HeroFacts } from "@/components/shared/page-hero";
 import { TrustStrip } from "@/components/shared/trust-strip";
 import { Breadcrumbs } from "@/components/blocks/breadcrumbs";
-import { FactsRow } from "@/components/blocks/facts-row";
 import { CaseStudyStrip } from "@/components/blocks/case-study-strip";
 import { LocationChips } from "@/components/blocks/location-chips";
 import { FaqAccordion } from "@/components/shared/faq-accordion";
@@ -55,15 +54,16 @@ export default async function EventServicePage({ params }: { params: Promise<{ e
     <>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       <JsonLd data={serviceSchema(`${offering.label} — Los Angeles`, offering.blurb, `/services/${offering.slug}`)} />
-      <PageHero kicker={`Services · ${offering.short}`} title={offering.label.replace(" Catering", "")} accent="catering, solved." lede={offering.blurb} />
-      <FactsRow
-        facts={[
-          { label: "Starting price", value: `$${offering.startingPrice}/guest` },
-          { label: "Lead time", value: offering.leadTime ?? "Ask us" },
-          { label: "Cuisine pairings", value: String(eventCombos.length || cuisines.length) },
-          { label: "Custom menus", value: offering.allowsCustom ? "Available" : "On request" },
-        ]}
-      />
+      <PageHero kicker={`Services · ${offering.short}`} title={offering.label.replace(" Catering", "")} accent="catering, solved." lede={offering.blurb}>
+        <HeroFacts
+          facts={[
+            { label: "starting price", value: `$${offering.startingPrice}/guest` },
+            { label: "lead time", value: offering.leadTime ?? "Ask us" },
+            { label: "cuisine pairings", value: String(eventCombos.length || cuisines.length) },
+            { label: "custom menus", value: offering.allowsCustom ? "Available" : "On request" },
+          ]}
+        />
+      </PageHero>
       <Breadcrumbs items={crumbs} />
       <TrustStrip />
 
@@ -127,7 +127,7 @@ export default async function EventServicePage({ params }: { params: Promise<{ e
         accent="always asks."
         withSchema
       />
-      <QuoteCtaCard from={`event-${offering.slug}`} event={offering.slug} title={`Price your ${offering.short.toLowerCase()} event`} />
+      <QuoteCtaCard from={`event-${offering.slug}`} event={offering.slug} title={`Price your ${offering.short.toLowerCase()} event`} image={offering.image} imageAlt={offering.imageAlt} />
       <LocationChips title={`${offering.short} catering across LA`} />
     </>
   );
