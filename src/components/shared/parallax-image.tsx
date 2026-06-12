@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 
 /** Image that drifts gently against scroll inside an overflow-hidden frame. */
@@ -24,8 +24,11 @@ export function ParallaxImage({
   strength?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Scroll-linked styles bypass MotionConfig's reducedMotion — gate manually.
+  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [`-${strength}%`, `${strength}%`]);
+  const drift = useTransform(scrollYProgress, [0, 1], [`-${strength}%`, `${strength}%`]);
+  const y = reduced ? "0%" : drift;
 
   return (
     <div ref={ref} className={cn("relative overflow-hidden", className)}>

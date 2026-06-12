@@ -128,6 +128,11 @@ export function Footer() {
                 </li>
               ))}
               <li>
+                <Link href="/menus" className={item}>
+                  All Menus
+                </Link>
+              </li>
+              <li>
                 <Link href="/custom-package" className={item}>
                   Custom Spread Builder
                 </Link>

@@ -9,11 +9,14 @@ export function MenuCard({
   cuisine,
   large = false,
   tabbable = true,
+  priority = false,
 }: {
   cuisine: Cuisine;
   large?: boolean;
   /** Set false on marquee clones so keyboard focus skips duplicates. */
   tabbable?: boolean;
+  /** Set on above-the-fold cards (hub grids) — they are the page's LCP. */
+  priority?: boolean;
 }) {
   return (
     <Link href={`/menus/${cuisine.slug}`} className="group block" tabIndex={tabbable ? undefined : -1}>
@@ -22,6 +25,7 @@ export function MenuCard({
           src={cuisine.image}
           alt={cuisine.imageAlt}
           shape={large ? "rect" : "arch"}
+          priority={priority}
           className={cn(large ? "aspect-[4/3]" : "aspect-[3/4]")}
           sizes={large ? "(min-width: 768px) 45vw, 100vw" : "(min-width: 1024px) 18vw, (min-width: 640px) 40vw, 70vw"}
           imgClassName="transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:scale-105"

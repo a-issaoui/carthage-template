@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel, Fraunces, Hanken_Grotesk } from "next/font/google";
 import { Header } from "@/components/navigation/header";
 import { Footer } from "@/components/layout/footer";
+import { MotionProvider } from "@/components/shared/motion-provider";
 import { QuoteFab } from "@/components/shared/quote-fab";
 import { JsonLd } from "@/components/shared/json-ld";
 import { localBusinessSchema } from "@/lib/schema";
@@ -76,10 +77,12 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main">{children}</main>
-        <QuoteFab />
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <QuoteFab />
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

@@ -76,11 +76,19 @@ export function QuoteWizard() {
     const event = params.get("event");
     const menu = params.get("menu");
     const diet = params.get("diet");
+    // ?vision= carries the spread-builder's picked dishes into the notes
+    // field — append once, even if the draft is reloaded with the same URL.
+    const vision = params.get("vision");
+    const visionNote = vision ? `Dishes picked in the spread builder: ${vision}` : null;
     setDraft({
       ...base,
       event_type: event ?? base.event_type,
       cuisine: menu ?? base.cuisine,
       diets: diet ? Array.from(new Set([...base.diets, diet])) : base.diets,
+      vision:
+        visionNote && !base.vision.includes(visionNote)
+          ? [base.vision, visionNote].filter(Boolean).join("\n\n")
+          : base.vision,
     });
     setHydrated(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps

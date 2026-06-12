@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { CalendarRange } from "lucide-react";
 
-/** Floating inquiry CTA — appears after the first scroll, hides on /contact. */
+/** Floating inquiry CTA — appears after the first scroll. Hidden on the
+ *  quote page itself and on /thank-you (they just sent a request). */
 export function QuoteFab() {
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
@@ -18,7 +19,7 @@ export function QuoteFab() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const show = visible && pathname !== "/get-a-quote";
+  const show = visible && pathname !== "/get-a-quote" && pathname !== "/thank-you";
 
   return (
     <AnimatePresence>

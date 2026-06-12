@@ -83,6 +83,10 @@ export function Header() {
       );
     },
   });
+  // Close a dropdown when keyboard focus leaves it (Tab past the last link).
+  const blurClose = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setMenu(null);
+  };
   const pathname = usePathname();
   // Transparent over every hero — all pages open on the navy slab.
   const light = !scrolled && !open;
@@ -123,9 +127,18 @@ export function Header() {
   }, [menu]);
 
   useEffect(() => {
+    // Lock scroll AND make the page behind the overlay inert — otherwise
+    // Tab walks into content the overlay visually covers.
     document.documentElement.style.overflow = open ? "hidden" : "";
+    const behind = [document.getElementById("main"), document.querySelector("footer")];
+    for (const el of behind) {
+      if (!el) continue;
+      if (open) el.setAttribute("inert", "");
+      else el.removeAttribute("inert");
+    }
     return () => {
       document.documentElement.style.overflow = "";
+      for (const el of behind) el?.removeAttribute("inert");
     };
   }, [open]);
 
@@ -184,7 +197,7 @@ export function Header() {
 
         {/* Centered nav */}
         <nav ref={navRef} aria-label="Primary" className="hidden items-center gap-8 xl:flex">
-          <div className="relative" {...hoverProps("catering")}>
+          <div className="relative" {...hoverProps("catering")} onBlur={blurClose}>
             <button
               type="button"
               onClick={() => { clearTimers(); setMenu(menu === "catering" ? null : "catering"); }}
@@ -261,7 +274,7 @@ export function Header() {
             </div>
           </div>
 
-          <div className="relative" {...hoverProps("cuisines")}>
+          <div className="relative" {...hoverProps("cuisines")} onBlur={blurClose}>
             <button
               type="button"
               onClick={() => { clearTimers(); setMenu(menu === "cuisines" ? null : "cuisines"); }}
@@ -326,7 +339,7 @@ export function Header() {
           </div>
 
           {/* Company dropdown — brand, proof, and diligence pages */}
-          <div className="relative" {...hoverProps("company")}>
+          <div className="relative" {...hoverProps("company")} onBlur={blurClose}>
             <button
               type="button"
               onClick={() => { clearTimers(); setMenu(menu === "company" ? null : "company"); }}
@@ -418,12 +431,13 @@ export function Header() {
           </ButtonLink>
         </div>
 
+        {/* -m-2/p-2 grows the touch target to 44px without moving the icon */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
-          className="justify-self-end xl:hidden"
+          className="-m-2 justify-self-end p-2 xl:hidden"
         >
           {open ? <X className="size-7" /> : <Menu className="size-7" />}
         </button>
@@ -478,6 +492,8 @@ export function Header() {
                 {[
                   { href: "/services", label: "All Services" },
                   { href: "/programs", label: "Programs" },
+                  { href: "/menus", label: "All Menus" },
+                  { href: "/custom-package", label: "Custom Spread Builder" },
                   { href: "/locations", label: "Locations" },
                   { href: "/events", label: "Events We've Catered" },
                   { href: "/testimonials", label: "Testimonials" },

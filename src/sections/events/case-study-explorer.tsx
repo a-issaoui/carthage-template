@@ -50,22 +50,22 @@ export function CaseStudyExplorer() {
         <div className="no-scrollbar flex flex-wrap items-end gap-x-10 gap-y-5 overflow-x-auto border-b border-ink/10">
           <div role="group" aria-label="Filter by event type" className="flex items-end gap-x-6">
             <span className={railLabel}>Event</span>
-            <button type="button" onClick={() => setEventFilter("all")} className={railButton(eventFilter === "all")}>
+            <button type="button" aria-pressed={eventFilter === "all"} onClick={() => setEventFilter("all")} className={railButton(eventFilter === "all")}>
               All
             </button>
             {eventTypes.map((t) => (
-              <button key={t} type="button" onClick={() => setEventFilter(t)} className={railButton(eventFilter === t)}>
+              <button key={t} type="button" aria-pressed={eventFilter === t} onClick={() => setEventFilter(t)} className={railButton(eventFilter === t)}>
                 {getOffering(t)?.short ?? t}
               </button>
             ))}
           </div>
           <div role="group" aria-label="Filter by area" className="flex items-end gap-x-6">
             <span className={railLabel}>Area</span>
-            <button type="button" onClick={() => setAreaFilter("all")} className={railButton(areaFilter === "all")}>
+            <button type="button" aria-pressed={areaFilter === "all"} onClick={() => setAreaFilter("all")} className={railButton(areaFilter === "all")}>
               All
             </button>
             {areas.map((a) => (
-              <button key={a} type="button" onClick={() => setAreaFilter(a)} className={railButton(areaFilter === a)}>
+              <button key={a} type="button" aria-pressed={areaFilter === a} onClick={() => setAreaFilter(a)} className={railButton(areaFilter === a)}>
                 {getLocation(a)?.name ?? a}
               </button>
             ))}
@@ -89,7 +89,7 @@ export function CaseStudyExplorer() {
         ) : (
           <motion.ul layout className="mt-14 grid gap-x-10 gap-y-14 md:grid-cols-2">
             <AnimatePresence mode="popLayout">
-              {visible.map((study) => (
+              {visible.map((study, i) => (
                 <motion.li
                   key={study.slug}
                   layout
@@ -103,6 +103,7 @@ export function CaseStudyExplorer() {
                       <SmartImage
                         src={study.image}
                         alt={study.imageAlt}
+                        priority={i < 2}
                         sizes="(min-width: 768px) 44vw, 100vw"
                         className="transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:scale-[1.04]"
                       />

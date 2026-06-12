@@ -51,7 +51,7 @@ export default function ThankYouPage() {
           <ul className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {cuisines.slice(0, 4).map((cuisine, i) => (
               <Reveal as="li" key={cuisine.slug} delay={i * 0.08}>
-                <MenuCard cuisine={cuisine} />
+                <MenuCard cuisine={cuisine} priority={i < 2} />
               </Reveal>
             ))}
           </ul>

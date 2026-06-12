@@ -32,7 +32,7 @@ export default function MenusHubPage() {
           <ul className="grid gap-7 sm:grid-cols-2">
             {cuisines.map((cuisine, i) => (
               <Reveal as="li" key={cuisine.slug} delay={(i % 2) * 0.1}>
-                <MenuCard cuisine={cuisine} large />
+                <MenuCard cuisine={cuisine} large priority={i < 2} />
               </Reveal>
             ))}
           </ul>
